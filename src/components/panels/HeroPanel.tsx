@@ -54,7 +54,7 @@ const HeroPanel = forwardRef<HTMLElement, HeroPanelProps>(
         <p className={common.sub}>
           교육 · 금융 · 게임 플랫폼을 거쳐온 UI Developer
           <br />
-          지금은 WEMIXPLAY에서 사용자가 마주하는 모든 화면을 책임지고 있습니다.
+          사용자가 마주하는 모든 화면을 책임지고 있습니다.
         </p>
         <EdgeButton pos="left" target="contact" onGo={onGo}>
           Resume &amp; Contact

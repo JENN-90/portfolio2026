@@ -63,6 +63,34 @@
   }
 }
 
+/* 바로가기 버튼 — link 필드가 있는 프로젝트에만 표시 */
+.shortcut {
+  position: absolute;
+  right: 24px;
+  bottom: 20px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 999px;
+  padding: 9px 18px;
+  text-decoration: none;
+  transition: background 0.3s, transform 0.3s, border-color 0.3s;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.28);
+    border-color: rgba(255, 255, 255, 0.45);
+    transform: translateY(-2px);
+  }
+}
+
 /* 이미지·비디오 레이어 — 오버레이(::after)와 라벨 아래에 깔리며 동일한 확대 애니메이션 적용 */
 .thumbImg,
 .thumbVideo {
@@ -119,6 +147,7 @@
     max-width: 520px;
     line-height: 1.75;
     text-shadow: 0 2px 16px rgba(0, 0, 0, 0.7);
+    white-space: pre-line; /* desc의 \n을 줄바꿈으로 렌더링 */
   }
 }
 
@@ -148,7 +177,7 @@
 }
 
 .cta {
-  min-height: 70vh;
+  min-height: 60vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -157,13 +186,17 @@
   padding: 40px 24px;
 
   h3 {
-    font-size: 24px;
+    font-size: 36px;
     font-weight: 800;
+  }
+
+  a {
+    min-width: 120px;
   }
 }
 
 .foot {
-  font-size: 11px;
+  font-size: 14px;
   color: var(--ink-faint);
   margin-top: 36px;
 }

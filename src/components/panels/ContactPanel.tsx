@@ -26,7 +26,7 @@ const ContactPanel = forwardRef<HTMLElement, ContactPanelProps>(
           유지보수와 협업까지 고려한 구조를 설계하고, 사용자에게 자연스러운
           경험으로 완성합니다.
         </p>
-        <div className={common.links}>
+        {/* <div className={common.links}>
           <a
             className={`${common.btn} ${common.primary}`}
             href="#"
@@ -55,7 +55,8 @@ const ContactPanel = forwardRef<HTMLElement, ContactPanelProps>(
           >
             LinkedIn
           </a>
-        </div>
+        </div> */}
+        {/* contact form */}
         <EdgeButton pos="right" target="hero" onGo={onGo}>
           Home
         </EdgeButton>

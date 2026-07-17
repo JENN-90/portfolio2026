@@ -341,15 +341,27 @@ const WorksPanel = forwardRef<WorksPanelHandle, WorksPanelProps>(
                   )}
                   <span>{proj.label}</span>
                 </div>
+                {/* 링크가 있는 프로젝트만 바로가기 버튼 렌더링 — .img 밖에 두어 패럴랙스 영향 없음 */}
+                {proj.link && (
+                  <a
+                    className={styles.shortcut}
+                    href={proj.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`${proj.title} 바로가기`}
+                  >
+                    바로가기 ↗
+                  </a>
+                )}
               </div>
             </div>
           ))}
 
           <div className={styles.cta}>
-            <h3>다음 프로젝트에서 뵙겠습니다</h3>
+            <h3>다음 경험을 함께 만들어갈 준비가 되어 있습니다. ✏️</h3>
             <div className={common.links}>
               <a
-                className={`${common.btn} ${common.primary}`}
+                className={`${common.btn}`}
                 href="#/contact"
                 onClick={(e) => {
                   e.preventDefault();
@@ -366,12 +378,10 @@ const WorksPanel = forwardRef<WorksPanelHandle, WorksPanelProps>(
                   onGo("career");
                 }}
               >
-                Career 보기
+                Career →
               </a>
             </div>
-            <div className={styles.foot}>
-              이 사이트는 모션 감소 설정을 존중합니다 · © 2026
-            </div>
+            <div className={styles.foot}>Let's build something better.</div>
           </div>
         </div>
 

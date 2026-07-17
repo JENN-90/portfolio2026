@@ -10,9 +10,14 @@
   z-index: 1;
   height: 100%;
   overflow-y: auto;
-  padding: 104px 28px 100px;
-  scrollbar-width: thin;
-  scrollbar-color: var(--line) transparent;
+  padding: 20vh 28px 100px;
+  /* 스크롤바 숨김 (스크롤 기능은 유지) */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .careerHero {
