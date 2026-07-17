@@ -1,0 +1,33 @@
+:root {
+  --bg: #0b0b0f;
+  --bg-panel: #16161c;
+  --ink: #f2f2f5;
+  --ink-soft: #d1d1dd;
+  --ink-faint: #ababbe;
+  --line: #2a2a33;
+  --accent: #8ea8ff;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  height: 100%;
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: "Pretendard", "Apple SD Gothic Neo", system-ui, sans-serif;
+}
+
+/* ===== 전역 타이포 ===== */
+h1 {
+  font-size: clamp(28px, 5vw, 52px);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  text-align: center;
+  line-height: 1.3;
+}

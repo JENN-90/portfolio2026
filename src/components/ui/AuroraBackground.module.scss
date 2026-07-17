@@ -1,0 +1,63 @@
+/* ===== 패널 공통 오로라 배경 ===== */
+.canvas {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  background: transparent;
+}
+
+.aurora {
+  position: absolute;
+  border-radius: 50%;
+  will-change: transform;
+  mix-blend-mode: screen;
+  z-index: 2;
+  opacity: .72;
+
+  &.aurora1 {
+    --h: 175;
+    width: 130vmax; height: 44vmax;
+    left: -30vmax; top: -6vmax;
+    transform: rotate(28deg);
+    background: radial-gradient(ellipse at center,
+      hsla(var(--h), 90%, 62%, .52),
+      hsla(var(--h), 90%, 55%, .16) 48%,
+      transparent 72%);
+  }
+
+  &.aurora2 {
+    --h: 262;
+    width: 95vmax; height: 70vmax;
+    right: -35vmax; top: -25vmax;
+    background: radial-gradient(ellipse at center,
+      hsla(var(--h), 80%, 58%, .46),
+      hsla(var(--h), 80%, 50%, .14) 46%,
+      transparent 72%);
+  }
+
+  &.aurora3 {
+    --h: 318;
+    width: 85vmax; height: 42vmax;
+    left: 22vmax; bottom: -22vmax;
+    transform: rotate(-14deg);
+    background: radial-gradient(ellipse at center,
+      hsla(var(--h), 85%, 64%, .42),
+      hsla(var(--h), 85%, 58%, .12) 46%,
+      transparent 72%);
+  }
+}
+
+.vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  background: radial-gradient(120% 90% at 50% 52%, transparent 30%, rgba(10, 10, 18, .42) 100%);
+}
+
+.cursorGlow {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  background: radial-gradient(520px 380px at var(--mx, 50%) var(--my, 50%), rgba(190, 205, 255, .09), transparent 70%);
+}

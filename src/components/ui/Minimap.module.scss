@@ -1,0 +1,22 @@
+/* ===== 우하단 미니맵 ===== */
+.minimap {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 100;
+  display: grid;
+  grid-template-columns: repeat(3, 14px);
+  grid-template-rows: repeat(2, 14px);
+  gap: 4px;
+
+  span {
+    width: 14px;
+    height: 14px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, .08);
+    transition: background .3s;
+
+    &.on { background: var(--accent); }
+    &.blank { background: transparent; }
+  }
+}
