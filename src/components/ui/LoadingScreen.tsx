@@ -11,10 +11,9 @@ interface LoadingScreenProps {
 }
 
 const MESSAGES = [
+  "이 프로젝트의 일부 영상 및 이미지는 공식 자료가 아닌 생성형 AI로 제작되었습니다",
   "로딩중입니다. 잠시만 기다려주세요!",
-  "안녕하세요! 환영합니다!",
-  "멋진 화면을 준비하고 있어요!",
-  "조금만 더 기다려주세요!",
+
   "곧 시작됩니다!",
 ];
 
@@ -70,15 +69,14 @@ export default function LoadingScreen({
     });
   }, [fadingOut, onComplete]);
 
-  /* 2초마다 랜덤 텍스트 전환 */
+  /* 2초마다 순차적으로 텍스트 전환 */
   useEffect(() => {
-    const pickNext = () => {
+    const id = setInterval(() => {
       setMessage((prev) => {
-        const candidates = MESSAGES.filter((m) => m !== prev);
-        return candidates[Math.floor(Math.random() * candidates.length)];
+        const next = (MESSAGES.indexOf(prev) + 1) % MESSAGES.length;
+        return MESSAGES[next];
       });
-    };
-    const id = setInterval(pickNext, 1400);
+    }, 2000);
     return () => clearInterval(id);
   }, []);
 
