@@ -15,7 +15,11 @@ interface PanelRefs {
   works: HTMLElement | null;
 }
 
-export default function CubeStage() {
+interface CubeStageProps {
+  playHeroVideo: boolean;
+}
+
+export default function CubeStage({ playHeroVideo }: CubeStageProps) {
   const stageRef = useRef<HTMLDivElement>(null);
   const cubeRef = useRef<HTMLDivElement>(null);
   const panelRefs = useRef<PanelRefs>({ hero: null, contact: null, career: null, works: null });
@@ -45,6 +49,7 @@ export default function CubeStage() {
             ref={(el) => { panelRefs.current.hero = el; }}
             onGo={handleGo}
             reduced={reduced}
+            playVideo={playHeroVideo}
           />
           <ContactPanel
             ref={(el) => { panelRefs.current.contact = el; }}

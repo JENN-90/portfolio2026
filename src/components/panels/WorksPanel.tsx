@@ -39,6 +39,10 @@ const WorksPanel = forwardRef<WorksPanelHandle, WorksPanelProps>(
     const smoothY = useRef(0);
     const maxScroll = useRef(0);
     const activeIdx = useRef(0);
+    /* 리사이즈 때 한 번만 측정한 아이템 위치 — RAF 루프에서 DOM 읽기(gBCR) 제거용 */
+    const itemMetrics = useRef<{ top: number; height: number }[]>([]);
+    const lastAppliedY = useRef(-1);
+    const inCTARef = useRef(false);
     const isActiveRef = useRef(isActive);
     isActiveRef.current = isActive;
 
@@ -52,24 +56,33 @@ const WorksPanel = forwardRef<WorksPanelHandle, WorksPanelProps>(
       }
     }, [isActive]);
 
-    /* works 패널이 활성일 때만 비디오 재생 — 모션 감소 설정 시 재생 안 함 */
+    /* 비활성/모션 감소 시 전체 일시정지 — 활성 시 재생은 RAF 루프가 화면에 보이는 것만 처리 */
     useEffect(() => {
-      videosRef.current.forEach((v) => {
-        if (!v) return;
-        if (isActive && !reduced) v.play().catch(() => {});
-        else v.pause();
-      });
+      if (isActive && !reduced) {
+        lastAppliedY.current = -1; // 다음 프레임에 보이는 비디오만 재생되도록 강제 갱신
+        return;
+      }
+      videosRef.current.forEach((v) => v?.pause());
     }, [isActive, reduced]);
 
     const measure = useCallback(() => {
       const track = trackRef.current;
       if (!track) return;
       maxScroll.current = Math.max(0, track.scrollHeight - innerHeight);
+      /* 아이템 위치를 미리 계산해 두면 루프에서 gBCR 없이 center를 산출할 수 있음 */
+      itemMetrics.current = itemsRef.current.map((item) =>
+        item
+          ? { top: item.offsetTop, height: item.offsetHeight }
+          : { top: 0, height: 0 }
+      );
+      lastAppliedY.current = -1;
     }, []);
 
     const resetScroll = useCallback(() => {
       targetY.current = 0;
       smoothY.current = 0;
+      lastAppliedY.current = -1;
+      inCTARef.current = false;
       const track = trackRef.current;
       if (track) track.style.transform = "translate3d(0, 0, 0)";
       activeIdx.current = 0;
@@ -145,6 +158,26 @@ const WorksPanel = forwardRef<WorksPanelHandle, WorksPanelProps>(
       return () => window.removeEventListener("resize", measure);
     }, [measure]);
 
+    /* 초기 로드가 끝난 뒤 유휴 시간에 비디오를 미리 버퍼링 —
+       첫 스크롤 중 play() 시점의 버퍼링·디코더 초기화 끊김 방지 */
+    useEffect(() => {
+      const warm = () => {
+        videosRef.current.forEach((v) => {
+          if (!v || !v.paused) return;
+          v.preload = "auto";
+          v.load();
+        });
+      };
+      const hasIdle = "requestIdleCallback" in window;
+      const id = hasIdle
+        ? requestIdleCallback(warm, { timeout: 4000 })
+        : window.setTimeout(warm, 3000);
+      return () => {
+        if (hasIdle) cancelIdleCallback(id as number);
+        else clearTimeout(id as number);
+      };
+    }, []);
+
     /* RAF 루프 */
     useEffect(() => {
       function loop() {
@@ -159,6 +192,13 @@ const WorksPanel = forwardRef<WorksPanelHandle, WorksPanelProps>(
         if (Math.abs(targetY.current - smoothY.current) < 0.05)
           smoothY.current = targetY.current;
 
+        /* 스크롤 값이 그대로면 DOM 작업 전부 생략 */
+        if (smoothY.current === lastAppliedY.current) {
+          rafRef.current = requestAnimationFrame(loop);
+          return;
+        }
+        lastAppliedY.current = smoothY.current;
+
         const track = trackRef.current;
         if (track)
           track.style.transform = `translate3d(0, ${-smoothY.current}px, 0)`;
@@ -167,10 +207,9 @@ const WorksPanel = forwardRef<WorksPanelHandle, WorksPanelProps>(
         let nearest = activeIdx.current;
         let nearestDist = Infinity;
 
-        itemsRef.current.forEach((item, i) => {
-          if (!item) return;
-          const r = item.getBoundingClientRect();
-          const center = r.top + r.height / 2;
+        /* gBCR 대신 미리 측정해 둔 offset으로 계산 — 강제 레이아웃 없음 */
+        itemMetrics.current.forEach((m, i) => {
+          const center = m.top + m.height / 2 - smoothY.current;
           const ratio = gsap.utils.clamp(-1, 1, (center - vh / 2) / (vh / 2));
           const img = imgsRef.current[i];
           if (img) img.style.transform = `translate3d(0, ${ratio * 8}%, 0)`;
@@ -179,18 +218,31 @@ const WorksPanel = forwardRef<WorksPanelHandle, WorksPanelProps>(
             nearestDist = dist;
             nearest = i;
           }
+
+          /* 화면에 보이는 비디오만 재생 — 오프스크린 디코딩 방지 */
+          const video = videosRef.current[i];
+          if (video && !reduced) {
+            const onScreen = center > -m.height && center < vh + m.height;
+            if (onScreen && video.paused) video.play().catch(() => {});
+            else if (!onScreen && !video.paused) video.pause();
+          }
         });
 
         const caption = captionRef.current;
-        const lastItem = itemsRef.current[itemsRef.current.length - 1];
-        if (caption && lastItem) {
-          const lastRect = lastItem.getBoundingClientRect();
-          const inCTA = lastRect.top + lastRect.height / 2 < vh * 0.18;
-          gsap.to(caption, {
-            autoAlpha: inCTA ? 0 : 1,
-            duration: 0.3,
-            overwrite: "auto",
-          });
+        const lastMetric = itemMetrics.current[itemMetrics.current.length - 1];
+        if (caption && lastMetric) {
+          const lastCenter =
+            lastMetric.top + lastMetric.height / 2 - smoothY.current;
+          const inCTA = lastCenter < vh * 0.18;
+          /* CTA 진입/이탈이 바뀔 때만 트윈 생성 — 매 프레임 생성 방지 */
+          if (inCTA !== inCTARef.current) {
+            inCTARef.current = inCTA;
+            gsap.to(caption, {
+              autoAlpha: inCTA ? 0 : 1,
+              duration: 0.3,
+              overwrite: "auto",
+            });
+          }
           if (!inCTA && nearestDist < vh * 0.5) setCaption(nearest);
         }
         rafRef.current = requestAnimationFrame(loop);
@@ -324,7 +376,8 @@ const WorksPanel = forwardRef<WorksPanelHandle, WorksPanelProps>(
                     className={styles.thumbImg}
                     src={proj.img}
                     alt={proj.title}
-                    loading="lazy"
+                    loading="eager"
+                    decoding="async"
                   />
                   {proj.video && (
                     <video

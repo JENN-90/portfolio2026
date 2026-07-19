@@ -9,18 +9,24 @@ import styles from "./HeroPanel.module.scss";
 interface HeroPanelProps {
   onGo: (target: PanelName) => void;
   reduced: boolean;
+  playVideo: boolean;
 }
 
 const HeroPanel = forwardRef<HTMLElement, HeroPanelProps>(
-  ({ onGo, reduced }, ref) => {
+  ({ onGo, reduced, playVideo }, ref) => {
     const videoRef = useRef<HTMLVideoElement>(null);
 
     useEffect(() => {
       if (reduced && videoRef.current) {
-        videoRef.current.autoplay = false;
         videoRef.current.pause();
       }
     }, [reduced]);
+
+    /* 로딩 완료 후에만 재생 시작 */
+    useEffect(() => {
+      if (!playVideo || reduced || !videoRef.current) return;
+      videoRef.current.play().catch(() => {});
+    }, [playVideo, reduced]);
 
     return (
       <section
@@ -33,7 +39,6 @@ const HeroPanel = forwardRef<HTMLElement, HeroPanelProps>(
           <video
             ref={videoRef}
             className={styles.heroVideo}
-            autoPlay
             muted
             loop
             playsInline

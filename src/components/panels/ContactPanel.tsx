@@ -70,7 +70,11 @@ const ContactPanel = forwardRef<HTMLElement, ContactPanelProps>(
           경험으로 완성합니다.
         </p>
         <div className={common.links}>
-          <a className={`${common.btn} ${common.secondary}`} href="resume.pdf">
+          <a
+            className={`${common.btn} ${common.secondary}`}
+            href="/docs/resume_2026.pdf"
+            download="resume_2026.pdf"
+          >
             이력서 PDF
           </a>
           <a
@@ -99,7 +103,7 @@ const ContactPanel = forwardRef<HTMLElement, ContactPanelProps>(
             <input
               className={styles.field}
               type="text"
-              placeholder="이름"
+              placeholder="이름(Name)"
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
@@ -107,7 +111,7 @@ const ContactPanel = forwardRef<HTMLElement, ContactPanelProps>(
             <input
               className={styles.field}
               type="email"
-              placeholder="답장받을 이메일 주소"
+              placeholder="메일(Email)"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
