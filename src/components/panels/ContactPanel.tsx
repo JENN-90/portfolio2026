@@ -46,7 +46,9 @@ const ContactPanel = forwardRef<HTMLElement, ContactPanelProps>(
         setMessage("");
       } catch (err) {
         setStatus("error");
-        setErrorMsg(err instanceof Error ? err.message : "전송에 실패했습니다.");
+        setErrorMsg(
+          err instanceof Error ? err.message : "전송에 실패했습니다."
+        );
       }
     };
 
@@ -67,36 +69,31 @@ const ContactPanel = forwardRef<HTMLElement, ContactPanelProps>(
           유지보수와 협업까지 고려한 구조를 설계하고, 사용자에게 자연스러운
           경험으로 완성합니다.
         </p>
-        {/* <div className={common.links}>
-          <a
-            className={`${common.btn} ${common.primary}`}
-            href="#"
-            onClick={(e) => e.preventDefault()}
-          >
-            이력서 PDF ↓
+        <div className={common.links}>
+          <a className={`${common.btn} ${common.secondary}`} href="resume.pdf">
+            이력서 PDF
           </a>
           <a
-            className={common.btn}
-            href="#"
-            onClick={(e) => e.preventDefault()}
+            className={`${common.btn} ${common.secondary}`}
+            href="mailto:syriana77@naver.com"
           >
-            📧 Email
+            Email
           </a>
           <a
-            className={common.btn}
-            href="#"
-            onClick={(e) => e.preventDefault()}
+            className={`${common.btn}`}
+            href="https://github.com/JENN-90"
+            target="_blank"
           >
             GitHub
           </a>
-          <a
-            className={common.btn}
+          {/* <a
+            className={`${common.btn} ${common.secondary}`}
             href="#"
             onClick={(e) => e.preventDefault()}
           >
             LinkedIn
-          </a>
-        </div> */}
+          </a> */}
+        </div>
         <form className={styles.form} onSubmit={handleSubmit}>
           <div className={styles.row}>
             <input

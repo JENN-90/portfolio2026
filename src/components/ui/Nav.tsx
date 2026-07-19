@@ -8,8 +8,8 @@ interface NavProps {
 
 const NAV_ITEMS: { label: string; target: PanelName; href: string }[] = [
   { label: "Home", target: "hero", href: "#/" },
-  { label: "Career", target: "career", href: "#/career" },
   { label: "Works", target: "works", href: "#/works" },
+  { label: "Career", target: "career", href: "#/career" },
   { label: "Contact", target: "contact", href: "#/contact" },
 ];
 

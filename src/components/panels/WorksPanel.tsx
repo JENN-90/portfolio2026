@@ -329,7 +329,6 @@ const WorksPanel = forwardRef<WorksPanelHandle, WorksPanelProps>(
                   {proj.video && (
                     <video
                       className={styles.thumbVideo}
-                      src={proj.video}
                       muted
                       loop
                       playsInline
@@ -337,7 +336,12 @@ const WorksPanel = forwardRef<WorksPanelHandle, WorksPanelProps>(
                       ref={(el) => {
                         if (el) videosRef.current[i] = el;
                       }}
-                    />
+                    >
+                      {proj.videoWebm && (
+                        <source src={proj.videoWebm} type="video/webm" />
+                      )}
+                      <source src={proj.video} type="video/mp4" />
+                    </video>
                   )}
                   <span>{proj.label}</span>
                 </div>
