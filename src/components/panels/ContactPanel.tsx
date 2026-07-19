@@ -19,8 +19,10 @@ const ContactPanel = forwardRef<HTMLElement, ContactPanelProps>(
         ref={ref}
       >
         <AuroraBackground reduced={reduced} />
-        <div className={common.eyebrow}>Resume &amp; Contact</div>
-        <h1>UI를 설계하고, 경험을 구현합니다</h1>
+        {/* <div className={common.eyebrow}>Contact</div> */}
+        <h1>
+          <b>UI를 설계</b>하고, <b>경험을 구현</b>합니다.
+        </h1>
         <p className={common.sub}>
           좋은 UI는 보기 좋은 화면에서 끝나지 않습니다. <br />
           유지보수와 협업까지 고려한 구조를 설계하고, 사용자에게 자연스러운

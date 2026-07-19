@@ -2,7 +2,7 @@ import { useRef } from 'react';
 import { useCubeNav } from '../hooks/useCubeNav';
 import HeroPanel from './panels/HeroPanel';
 import ContactPanel from './panels/ContactPanel';
-import CareerPanel from './panels/CareerPanel';
+import CareerPanel, { type CareerPanelHandle } from './panels/CareerPanel';
 import WorksPanel, { type WorksPanelHandle } from './panels/WorksPanel';
 import Nav from './ui/Nav';
 import Minimap from './ui/Minimap';
@@ -20,6 +20,7 @@ export default function CubeStage() {
   const cubeRef = useRef<HTMLDivElement>(null);
   const panelRefs = useRef<PanelRefs>({ hero: null, contact: null, career: null, works: null });
   const worksHandleRef = useRef<WorksPanelHandle>(null);
+  const careerHandleRef = useRef<CareerPanelHandle>(null);
 
   const { current, go, reduced, animating } = useCubeNav(
     panelRefs as React.RefObject<PanelRefs>,
@@ -27,6 +28,7 @@ export default function CubeStage() {
     cubeRef as React.RefObject<HTMLElement | null>,
     (target) => {
       if (target === 'works') worksHandleRef.current?.resetScroll();
+      if (target === 'career') careerHandleRef.current?.resetScroll();
     },
   );
 
@@ -50,7 +52,10 @@ export default function CubeStage() {
             reduced={reduced}
           />
           <CareerPanel
-            ref={(el) => { panelRefs.current.career = el; }}
+            ref={(handle) => {
+              careerHandleRef.current = handle;
+              panelRefs.current.career = handle?.el ?? null;
+            }}
             onGo={handleGo}
             reduced={reduced}
           />

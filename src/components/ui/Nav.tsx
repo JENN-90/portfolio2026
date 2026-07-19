@@ -1,5 +1,5 @@
-import type { PanelName } from '../../data/projects';
-import styles from './Nav.module.scss';
+import type { PanelName } from "../../data/projects";
+import styles from "./Nav.module.scss";
 
 interface NavProps {
   current: PanelName;
@@ -7,10 +7,10 @@ interface NavProps {
 }
 
 const NAV_ITEMS: { label: string; target: PanelName; href: string }[] = [
-  { label: 'Resume & Contact', target: 'contact', href: '#/contact' },
-  { label: 'Home', target: 'hero', href: '#/' },
-  { label: 'Career', target: 'career', href: '#/career' },
-  { label: 'Works', target: 'works', href: '#/works' },
+  { label: "Home", target: "hero", href: "#/" },
+  { label: "Career", target: "career", href: "#/career" },
+  { label: "Works", target: "works", href: "#/works" },
+  { label: "Contact", target: "contact", href: "#/contact" },
 ];
 
 export default function Nav({ current, onGo }: NavProps) {
@@ -20,8 +20,11 @@ export default function Nav({ current, onGo }: NavProps) {
         <a
           key={target}
           href={href}
-          className={current === target ? styles.active : ''}
-          onClick={(e) => { e.preventDefault(); onGo(target); }}
+          className={current === target ? styles.active : ""}
+          onClick={(e) => {
+            e.preventDefault();
+            onGo(target);
+          }}
         >
           {label}
         </a>

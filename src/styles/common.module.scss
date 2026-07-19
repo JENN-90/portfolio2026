@@ -32,7 +32,7 @@
 
 /* ===== 공통 타이포 ===== */
 .eyebrow {
-  font-size: 13px;
+  font-size: 14px;
   letter-spacing: 0.2em;
   color: var(--ink-faint);
   margin-bottom: 14px;
@@ -40,11 +40,12 @@
 }
 
 .sub {
-  font-size: 14px;
+  font-size: 16px;
   color: var(--ink-soft);
   margin-top: 14px;
   text-align: center;
   line-height: 1.7;
+  text-shadow: 0px 0px 10px rgba($color: #000000, $alpha: 0.7);
 }
 
 /* ===== 공통 버튼 / 링크 ===== */

@@ -1,4 +1,9 @@
-import { forwardRef, useState } from "react";
+import {
+  forwardRef,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from "react";
 import EdgeButton from "../ui/EdgeButton";
 import AuroraBackground from "../ui/AuroraBackground";
 import type { PanelName } from "../../data/projects";
@@ -6,15 +11,35 @@ import { EXPERIENCES } from "../../data/experiences";
 import common from "../../styles/common.module.scss";
 import styles from "./CareerPanel.module.scss";
 
+export interface CareerPanelHandle {
+  el: HTMLElement | null;
+  resetScroll: () => void;
+}
+
 interface CareerPanelProps {
   onGo: (target: PanelName) => void;
   reduced: boolean;
 }
 
-const CareerPanel = forwardRef<HTMLElement, CareerPanelProps>(
+const CareerPanel = forwardRef<CareerPanelHandle, CareerPanelProps>(
   ({ onGo, reduced }, ref) => {
     /* 열린 아코디언 항목 id 집합 — 초기에는 전부 닫힘 */
     const [openIds, setOpenIds] = useState(new Set<string>());
+    const sectionRef = useRef<HTMLElement>(null);
+    const scrollRef = useRef<HTMLDivElement>(null);
+
+    useImperativeHandle(
+      ref,
+      () => ({
+        get el() {
+          return sectionRef.current;
+        },
+        resetScroll() {
+          scrollRef.current?.scrollTo({ top: 0, left: 0, behavior: "auto" });
+        },
+      }),
+      []
+    );
 
     const toggle = (id: string) => {
       setOpenIds((prev) => {
@@ -30,11 +55,11 @@ const CareerPanel = forwardRef<HTMLElement, CareerPanelProps>(
         className={styles.career}
         id="p-career"
         aria-label="경력"
-        ref={ref}
+        ref={sectionRef}
       >
         <AuroraBackground reduced={reduced} />
 
-        <div className={styles.careerScroll}>
+        <div className={styles.careerScroll} ref={scrollRef}>
           <div className={styles.careerHero}>
             <div>
               <div className={common.eyebrow}>만들며 성장해온 기록</div>
