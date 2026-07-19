@@ -15,6 +15,7 @@ type SubmitStatus = "idle" | "loading" | "success" | "error";
 
 const ContactPanel = forwardRef<HTMLElement, ContactPanelProps>(
   ({ onGo, reduced }, ref) => {
+    const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [message, setMessage] = useState("");
     const [status, setStatus] = useState<SubmitStatus>("idle");
@@ -31,7 +32,7 @@ const ContactPanel = forwardRef<HTMLElement, ContactPanelProps>(
         const res = await fetch("/api/contact", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email, message }),
+          body: JSON.stringify({ name, email, message }),
         });
         const data = await res.json();
 
@@ -40,6 +41,7 @@ const ContactPanel = forwardRef<HTMLElement, ContactPanelProps>(
         }
 
         setStatus("success");
+        setName("");
         setEmail("");
         setMessage("");
       } catch (err) {
@@ -96,14 +98,24 @@ const ContactPanel = forwardRef<HTMLElement, ContactPanelProps>(
           </a>
         </div> */}
         <form className={styles.form} onSubmit={handleSubmit}>
-          <input
-            className={styles.field}
-            type="email"
-            placeholder="답장받을 이메일 주소"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
+          <div className={styles.row}>
+            <input
+              className={styles.field}
+              type="text"
+              placeholder="이름"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+            />
+            <input
+              className={styles.field}
+              type="email"
+              placeholder="답장받을 이메일 주소"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
           <textarea
             className={`${styles.field} ${styles.textarea}`}
             placeholder="전하고 싶은 메시지를 남겨주세요"

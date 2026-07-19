@@ -14,13 +14,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(405).json({ error: "Method Not Allowed" });
   }
 
-  const { email, message } = (req.body ?? {}) as {
+  const { name, email, message } = (req.body ?? {}) as {
+    name?: string;
     email?: string;
     message?: string;
   };
 
-  if (!email || !message) {
-    return res.status(400).json({ error: "email과 message는 필수입니다." });
+  if (!name || !email || !message) {
+    return res.status(400).json({ error: "name, email, message는 필수입니다." });
   }
   if (!isValidEmail(email)) {
     return res.status(400).json({ error: "올바른 이메일 형식이 아닙니다." });
@@ -34,8 +35,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       from: "Portfolio Contact <onboarding@resend.dev>",
       to: TO_EMAIL,
       replyTo: email,
-      subject: `[Portfolio] ${email}님의 새 메시지`,
-      text: `보낸 사람: ${email}\n\n${message}`,
+      subject: `[Portfolio] ${name}(${email})님의 새 메시지`,
+      text: `보낸 사람: ${name} <${email}>\n\n${message}`,
     });
 
     if (error) {
