@@ -396,8 +396,8 @@ const WorksPanel = forwardRef<WorksPanelHandle, WorksPanelProps>(
                       <source src={proj.video} type="video/mp4" />
                     </video>
                   )}
-                  <span>{proj.label}</span>
                 </div>
+                <span className={styles.label}>{proj.label}</span>
                 {/* 링크가 있는 프로젝트만 바로가기 버튼 렌더링 — .img 밖에 두어 패럴랙스 영향 없음 */}
                 {proj.link && (
                   <a
