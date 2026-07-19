@@ -22,19 +22,19 @@ export const EXPERIENCES: Experience[] = [
   {
     id: "wemade",
     name: "위메이드",
-    role: "WEMIXPLAY 프론트엔드 & 백오피스 UI 담당",
+    role: "WEMIXPLAY Front & 백오피스 UI 담당",
     period: "2022.11 — 현재",
     current: true,
     summary:
-      "블록체인 게임 플랫폼 WEMIXPLAY의 3.0 to 4.0 리뉴얼을 초기 단계부터 UI 작업자로서 참여했습니다. " +
-      "Storybook 기반 아톰 컴포넌트 시스템과 Dark/Light 테마를 구축하였고, AI-driven Admin 파이프라인의 UI 일관성 작업을 위한 UI생성 Rule, 수월환 협업을 위한 Auto-Comment 스킬을 구현했으며, " +
-      "WEMADE 공식 홈페이지의 GSAP 스크롤 인터랙션과 Web3 글로벌 게임 사전예약 이벤트의 FE 기능 및 UI 화면을 구현하고있습니다.",
+      "블록체인 게임 플랫폼 WEMIXPLAY의 3.0 → 4.0 리뉴얼에 초기 단계부터 UI 작업자로 참여했습니다. " +
+      "AI-driven Admin 파이프라인에서는 UI 일관성 유지를 위한 UI 생성 Rule과 원활한 협업을 위한 Auto-Comment 스킬을 구현했으며, " +
+      "WEMADE 공식 홈페이지에 GSAP 스크롤 인터랙션을 적용했습니다. 현재는 Web3 글로벌 게임 사전예약 이벤트의 UI 화면을 구현하고 있습니다.",
     groups: [
       {
         title: "WEMIXPLAY 3.0 → 4.0",
         bullets: [
-          "게임 소개 중심의 3.0부터 커뮤니케이션 중심의 4.0까지, 리뉴얼 초기 기획 단계부터 UI 작업자로 참여",
-          "4.0 사전예약 프로모션 및 소개 페이지 제작, 3.0에서는 불필요한 스타일·리소스를 정리해 유지보수성 향상",
+          "게임 소개 중심의 3.0에서 커뮤니케이션 중심의 4.0까지, 리뉴얼 초기 기획 단계부터 UI 작업자로 참여",
+          "4.0 사전예약 프로모션 및 소개 페이지 제작, 3.0의 불필요한 스타일·리소스 정리 및 유지보수",
           "variable·mixin을 활용해 다크/라이트 테마, 폰트, 인터랙션 영역을 시스템으로 적용",
           "재사용 가능한 아톰 컴포넌트(버튼·입력창·태그·모달 등)를 제작하고 Storybook으로 관리하며 유관 부서와 정기 공유",
           "정기 회고와 피드백을 통해 불필요한 태그·스타일을 제거 및 개선",
@@ -51,11 +51,11 @@ export const EXPERIENCES: Experience[] = [
         title: "공식 홈페이지 & Web3 이벤트",
         bullets: [
           "WEMADE 공식 홈페이지 구축(Main, Work with us, 채용/회사소개, IR) — Next.js·GSAP 스크롤 인터랙션 구현",
-          "Web3 글로벌 게임 사전예약 이벤트 UI 제작 및 FE 기능 구현 (ROM, YMIR, 악마단 돌격)",
+          "Web3 글로벌 게임 사전예약 이벤트 UI 제작 및 기능 구현 (ROM, YMIR, 악마단 돌격(예정))",
         ],
       },
     ],
-    tags: ["Next.js", "GSAP", "Storybook", "Design System", "SCSS", "Web3"],
+    tags: ["Next.js", "GSAP", "Storybook", "Design System", "Web3"],
   },
   {
     id: "winkstone",
@@ -64,20 +64,18 @@ export const EXPERIENCES: Experience[] = [
     period: "2022.05 — 2022.11",
     summary:
       "핀테크 스타트업에서 기업 홈페이지와 대출·투자 서비스 사이트 리뉴얼을 담당했습니다. " +
-      "선정산 플랫폼 '데일리드림'의 유지보수와 긱워커 대상 랜딩페이지를 반응형으로 퍼블리싱하며, " +
-      "금융 서비스 특유의 신뢰감 있는 UI를 빠른 호흡으로 구현했습니다.",
+      "선정산 플랫폼 '데일리드림'을 유지보수하고 긱워커 대상 랜딩페이지를 반응형으로 제작하였습니다.",
     groups: [
       {
         title: "주요 업무",
         bullets: [
           "윙크스톤파트너스 기업 홈페이지 리뉴얼 — 반응형 웹 퍼블리싱",
           "윙크스톤 대출(loan.winkstone)·투자(invest.winkstone) 사이트 리뉴얼 — 랜딩 및 마이페이지 등",
-          "온라인쇼핑몰 매출채권 선정산 플랫폼 '데일리드림' 유지보수",
           "긱워커 선정산 진입용 랜딩페이지 퍼블리싱",
         ],
       },
     ],
-    tags: ["Fintech", "Responsive", "Landing Page"],
+    tags: ["Vue", "HTML", "CSS", "JS", "Responsive"],
   },
   {
     id: "welcome-fnd",
@@ -94,26 +92,17 @@ export const EXPERIENCES: Experience[] = [
         bullets: [
           "Welcome Leasing LAO 리뉴얼",
           "웰컴캐피탈 홈페이지 PC/Mobile 신규 프로젝트 진행",
-          "웰컴파이낸스 필리핀(WBP) 랜딩페이지 UI 작업 담당",
+          "웰컴파이낸스 필리핀(WBP) 랜딩페이지 UI 작업",
           "웰컴에프앤디 홈페이지 유지보수, 웰릭스렌탈 전산 UI 일부 화면 개선",
         ],
       },
-      {
-        title: "기타 프로젝트",
-        bullets: [
-          "ENE System APP UI",
-          "LG Display Techforum 반응형 웹 퍼블리싱",
-          "LG Display 사내 웹진 2021(디자인·퍼블리싱), 2022(퍼블리싱)",
-          "셀스미스 반응형 웹",
-        ],
-      },
     ],
-    tags: ["금융", "PC/Mobile", "App UI"],
+    tags: ["Vue", "HTML", "CSS", "JS", "Responsive"],
   },
   {
     id: "icecream-kids",
     name: "아이스크림키즈",
-    role: "교육 플랫폼 웹/앱 퍼블리싱 (PDM)",
+    role: "교육 플랫폼 웹/앱 퍼블리싱",
     period: "2019.02 — 2020.11",
     summary:
       "유아 교육 콘텐츠 플랫폼 '누리놀이'의 PC 웹사이트 리뉴얼과 유지보수, 이벤트·랜딩페이지를 담당했습니다. " +
@@ -123,14 +112,13 @@ export const EXPERIENCES: Experience[] = [
       {
         title: "주요 업무",
         bullets: [
-          "누리놀이 PC 웹사이트 리뉴얼, 유지보수, 이벤트·랜딩페이지 제작",
+          "누리놀이 PC 웹사이트 리뉴얼, 유지보수, 다운로드 이벤트·랜딩페이지 제작",
           "리틀홈런 PC/모바일 신규 웹사이트 담당",
           "틴포 창의력발달검사 하이브리드 앱 퍼블리싱",
-          "누리놀이 연간교육계획안 퍼블리싱",
         ],
       },
     ],
-    tags: ["Education", "Hybrid App", "PC/Mobile"],
+    tags: ["HTML", "CSS", "JS", "Hybrid", "Responsive"],
   },
   {
     id: "nitroi",
@@ -158,6 +146,6 @@ export const EXPERIENCES: Experience[] = [
           "성덕고등학교 · 태원고등학교 · 구미전자공업고등학교 외",
       },
     ],
-    tags: ["웹표준", "반응형", "KOSA"],
+    tags: ["HTML", "CSS", "JS", "Responsive"],
   },
 ];
