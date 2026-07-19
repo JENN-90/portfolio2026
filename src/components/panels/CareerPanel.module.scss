@@ -36,7 +36,7 @@
 }
 
 .careerMeta {
-  font-size: 12px;
+  font-size: 0.75rem;
   line-height: 2;
   letter-spacing: 0.04em;
   color: var(--ink-faint);
@@ -111,7 +111,7 @@
 }
 
 .expIndex {
-  font-size: 12px;
+  font-size: 0.75rem;
   color: var(--ink-faint);
   letter-spacing: 0.08em;
   font-variant-numeric: tabular-nums;
@@ -123,7 +123,7 @@
 }
 
 .expName {
-  font-size: clamp(20px, 3vw, 28px);
+  font-size: clamp(1.25rem, 3vw, 1.75rem);
   font-weight: 800;
   letter-spacing: -0.02em;
   color: var(--ink);
@@ -134,7 +134,7 @@
   flex-wrap: wrap;
 
   .now {
-    font-size: 10px;
+    font-size: 0.625rem;
     font-weight: 700;
     letter-spacing: 0.08em;
     color: var(--accent);
@@ -147,7 +147,7 @@
 
 .expRole {
   display: block;
-  font-size: 13px;
+  font-size: 0.8125rem;
   color: var(--ink-soft);
   margin-top: 8px;
 }
@@ -155,14 +155,14 @@
 .expSummary {
   display: block;
   margin-top: 12px;
-  font-size: 16px;
+  font-size: 1rem;
   line-height: 1.85;
   color: var(--ink-soft);
   max-width: 620px;
 }
 
 .expPeriod {
-  font-size: 12px;
+  font-size: 0.75rem;
   color: var(--ink-faint);
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
@@ -236,7 +236,7 @@
 }
 
 .expGroupTitle {
-  font-size: 13px;
+  font-size: 0.8125rem;
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -250,7 +250,7 @@
   li {
     position: relative;
     padding-left: 16px;
-    font-size: 14px;
+    font-size: 0.875rem;
     line-height: 1.8;
     color: var(--ink-soft);
     margin-bottom: 2px;
@@ -265,7 +265,7 @@
 }
 
 .expNote {
-  font-size: 12px;
+  font-size: 0.75rem;
   color: var(--ink-faint);
   line-height: 1.8;
   margin-top: 8px;
@@ -281,7 +281,7 @@
 }
 
 .expTag {
-  font-size: 11px;
+  font-size: 0.6875rem;
   color: var(--ink-soft);
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid var(--line);
@@ -310,7 +310,7 @@
 
   .expMobilePeriod {
     display: block;
-    font-size: 11px;
+    font-size: 0.6875rem;
     color: var(--ink-faint);
     font-variant-numeric: tabular-nums;
     margin-bottom: 8px;

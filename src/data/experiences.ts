@@ -26,9 +26,9 @@ export const EXPERIENCES: Experience[] = [
     period: "2022.11 — 현재",
     current: true,
     summary:
-      "블록체인 게임 플랫폼 WEMIXPLAY의 3.0→4.0 리뉴얼을 초기 기획 단계부터 UI 작업자로 참여했습니다. " +
-      "Storybook 기반 아톰 컴포넌트 시스템과 다크/라이트 테마를 구축하고, AI-driven Admin 파이프라인의 UI 일관성 작업을 수행했으며, " +
-      "WEMADE 공식 홈페이지의 GSAP 스크롤 인터랙션과 Web3 글로벌 게임 사전예약 이벤트의 FE 기능을 구현했습니다.",
+      "블록체인 게임 플랫폼 WEMIXPLAY의 3.0 to 4.0 리뉴얼을 초기 단계부터 UI 작업자로서 참여했습니다. " +
+      "Storybook 기반 아톰 컴포넌트 시스템과 Dark/Light 테마를 구축하였고, AI-driven Admin 파이프라인의 UI 일관성 작업을 위한 UI생성 Rule, 수월환 협업을 위한 Auto-Comment 스킬을 구현했으며, " +
+      "WEMADE 공식 홈페이지의 GSAP 스크롤 인터랙션과 Web3 글로벌 게임 사전예약 이벤트의 FE 기능 및 UI 화면을 구현하고있습니다.",
     groups: [
       {
         title: "WEMIXPLAY 3.0 → 4.0",

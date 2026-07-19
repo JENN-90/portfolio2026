@@ -56,8 +56,8 @@ const HeroPanel = forwardRef<HTMLElement, HeroPanelProps>(
         </AuroraBackground>
         <div className={common.eyebrow}>UI Developer Portfolio</div>
         <h1>
-          화면 너머의 <b>사용자</b>를 <br />
-          먼저 <b>생각하고 고민</b>합니다.{" "}
+          화면 너머의 <strong>사용자</strong>를 <br />
+          먼저 <strong>생각하고 고민</strong>합니다.{" "}
         </h1>
         <p className={common.sub}>
           교육 · 금융 · 게임 플랫폼을 거쳐온 UI Developer

@@ -5,6 +5,15 @@ import { type PanelName, GRID, NAV_MAP, ROUTE, FROM_ROUTE } from '../data/projec
 const DUR = 1.2;
 const EASE = 'power4.inOut';
 
+/* 패널별 문서 제목 — 화면 전환 시 브라우저 탭/스크린리더에 현재 위치 전달 */
+const PANEL_TITLE: Record<PanelName, string> = {
+  hero: 'Home',
+  works: 'Works',
+  career: 'Career',
+  contact: 'Contact',
+};
+const BASE_TITLE = '정소라 | UI Developer Portfolio';
+
 interface PanelRefs {
   hero: HTMLElement | null;
   contact: HTMLElement | null;
@@ -22,6 +31,11 @@ export function useCubeNav(
   const [current, setCurrent] = useState<PanelName>(() => {
     return FROM_ROUTE[location.hash] ?? 'hero';
   });
+  useEffect(() => {
+    document.title =
+      current === 'hero' ? BASE_TITLE : `${PANEL_TITLE[current]} — ${BASE_TITLE}`;
+  }, [current]);
+
   const animating = useRef(false);
   const currentRef = useRef<PanelName>(current);
   currentRef.current = current;

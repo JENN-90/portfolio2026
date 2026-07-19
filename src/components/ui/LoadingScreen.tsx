@@ -85,7 +85,7 @@ export default function LoadingScreen({
       <AuroraBackground reduced={reduced} />
       <div className={styles.content}>
         <div className={styles.gaugeWrap}>
-          <svg className={styles.gauge} viewBox="0 0 200 200">
+          <svg className={styles.gauge} viewBox="0 0 200 200" aria-hidden="true">
             <defs>
               <linearGradient
                 id="gaugeGradient"
@@ -111,7 +111,7 @@ export default function LoadingScreen({
           </svg>
           <div className={styles.percentText}>{percent.toFixed(1)}%</div>
         </div>
-        <p key={message} className={styles.message}>
+        <p key={message} className={styles.message} role="status">
           {message}
         </p>
       </div>

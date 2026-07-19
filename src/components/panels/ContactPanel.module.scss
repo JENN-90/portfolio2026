@@ -22,7 +22,7 @@
 
 .field {
   width: 100%;
-  font-size: 14px;
+  font-size: 0.875rem;
   font-family: inherit;
   color: var(--ink);
   background: rgba(255, 255, 255, 0.03);
@@ -36,9 +36,14 @@
   }
 
   &:focus {
-    outline: none;
     border-color: var(--accent);
     background: rgba(255, 255, 255, 0.05);
+  }
+
+  /* 고대비 모드에서도 사라지지 않는 포커스 표시 */
+  &:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
   }
 }
 
@@ -51,7 +56,7 @@
 .submit {
   align-self: center;
   margin-top: 4px;
-  font-size: 13px;
+  font-size: 0.8125rem;
   font-weight: 700;
   color: var(--bg);
   background: var(--ink);
@@ -70,7 +75,7 @@
 
 .status {
   min-height: 18px;
-  font-size: 12px;
+  font-size: 0.75rem;
   text-align: center;
 
   &.success {

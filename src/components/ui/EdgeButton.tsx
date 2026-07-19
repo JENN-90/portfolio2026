@@ -34,10 +34,16 @@ export default function EdgeButton({
   const dir = ARR_DIR[pos];
   const sym = ARR_SYMBOL[dir];
   const isLeft = pos === "left" || pos === "top";
-  const arrow = <span className={`${styles.arr} ${styles[dir]}`}>{sym}</span>;
+  /* 장식용 화살표 — 스크린리더가 "왼쪽 화살표" 등으로 읽지 않도록 숨김 */
+  const arrow = (
+    <span className={`${styles.arr} ${styles[dir]}`} aria-hidden="true">
+      {sym}
+    </span>
+  );
 
   return (
     <button
+      type="button"
       className={`${styles.edge} ${styles[pos]}`}
       onClick={() => onGo(target)}
     >

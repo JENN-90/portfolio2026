@@ -20,7 +20,7 @@ interface CubeStageProps {
 }
 
 export default function CubeStage({ playHeroVideo }: CubeStageProps) {
-  const stageRef = useRef<HTMLDivElement>(null);
+  const stageRef = useRef<HTMLElement>(null);
   const cubeRef = useRef<HTMLDivElement>(null);
   const panelRefs = useRef<PanelRefs>({
     hero: null,
@@ -48,7 +48,7 @@ export default function CubeStage({ playHeroVideo }: CubeStageProps) {
       <Nav current={current} onGo={handleGo} />
       {/* <Minimap current={current} /> */}
 
-      <div className={styles.stage} ref={stageRef}>
+      <main className={styles.stage} ref={stageRef}>
         <div className={styles.cube} ref={cubeRef}>
           <HeroPanel
             ref={(el) => {
@@ -84,7 +84,7 @@ export default function CubeStage({ playHeroVideo }: CubeStageProps) {
             animating={animating}
           />
         </div>
-      </div>
+      </main>
     </>
   );
 }

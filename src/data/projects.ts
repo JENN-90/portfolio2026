@@ -12,12 +12,12 @@ const videoFiles = import.meta.glob("../assets/videos/*", {
 
 const img = (filename: string) => {
   const url = imgFiles[`../assets/imgs/${filename}`];
-  if (!url) throw new Error(`이미지를 찾을 수 없습니다: ${filename}`);
+  if (!url) console.warn(`이미지를 찾을 수 없습니다: ${filename}`);
   return url;
 };
 const video = (filename: string) => {
   const url = videoFiles[`../assets/videos/${filename}`];
-  if (!url) throw new Error(`비디오를 찾을 수 없습니다: ${filename}`);
+  if (!url) console.warn(`비디오를 찾을 수 없습니다: ${filename}`);
   return url;
 };
 
@@ -27,7 +27,7 @@ export interface Project {
   desc: string; // \n을 넣으면 해당 위치에서 줄바꿈됨
 
   tags: string[];
-  img: string;
+  img?: string; // 없으면 썸네일 이미지 없이 렌더링됨
   label: string;
   video?: string;
   videoWebm?: string; // video의 webm 소스 — 있으면 <source>로 mp4보다 우선 시도됨
@@ -58,7 +58,6 @@ const PROJECT_ITEMS: Omit<Project, "idx">[] = [
     title: "AI-driven Console Admin",
     desc: "AI-driven pipeline 구현 과정에서 UI 일관성을 지키기위한 rule 을 적용하고, 타 부서와의 협업 자동화를 위한 jira comment 자동작성 스크립트를 작업했습니다.\nWEMIX PAY · DEX.",
     tags: ["Vite", "AI-driven", "BackOffice"],
-    img: img("works-thumbnail-hellsquad.webp"),
     label: "AI-Driven",
   },
   {

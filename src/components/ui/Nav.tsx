@@ -21,6 +21,7 @@ export default function Nav({ current, onGo }: NavProps) {
           key={target}
           href={href}
           className={current === target ? styles.active : ""}
+          aria-current={current === target ? "page" : undefined}
           onClick={(e) => {
             e.preventDefault();
             onGo(target);

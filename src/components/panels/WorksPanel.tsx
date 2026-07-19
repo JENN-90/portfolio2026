@@ -4,6 +4,7 @@ import {
   useEffect,
   useImperativeHandle,
   useRef,
+  useState,
 } from "react";
 import gsap from "gsap";
 import AuroraBackground from "../ui/AuroraBackground";
@@ -34,6 +35,9 @@ const WorksPanel = forwardRef<WorksPanelHandle, WorksPanelProps>(
     const imgsRef = useRef<HTMLDivElement[]>([]);
     const videosRef = useRef<HTMLVideoElement[]>([]);
     const rafRef = useRef<number>(0);
+
+    /* 캡션 내용은 React state로 렌더링 — GSAP은 페이드 애니메이션만 담당 */
+    const [capIdx, setCapIdx] = useState(0);
 
     const targetY = useRef(0);
     const smoothY = useRef(0);
@@ -106,16 +110,8 @@ const WorksPanel = forwardRef<WorksPanelHandle, WorksPanelProps>(
     function updateCaption(i: number, instant = false) {
       const caption = captionRef.current;
       if (!caption) return;
-      const p = PROJECTS[i];
       if (instant) {
-        caption.querySelector<HTMLElement>(`.${styles.wcIdx}`)!.textContent =
-          p.idx;
-        caption.querySelector<HTMLElement>("h2")!.textContent = p.title;
-        caption.querySelector<HTMLElement>("p")!.textContent = p.desc;
-        caption.querySelector<HTMLElement>(`.${styles.wcTags}`)!.innerHTML =
-          p.tags
-            .map((t) => `<span class="${styles.ptag}">${t}</span>`)
-            .join("");
+        setCapIdx(i);
         gsap.set(caption, { opacity: 1, y: 0, autoAlpha: 1 });
         return;
       }
@@ -125,15 +121,9 @@ const WorksPanel = forwardRef<WorksPanelHandle, WorksPanelProps>(
         y: -14,
         duration: reduced ? 0 : 0.28,
         ease: "power2.in",
+        /* 페이드아웃 완료(opacity 0) 시점에 내용 교체 — React가 다음 렌더에서 반영 */
         onComplete() {
-          caption.querySelector<HTMLElement>(`.${styles.wcIdx}`)!.textContent =
-            p.idx;
-          caption.querySelector<HTMLElement>("h2")!.textContent = p.title;
-          caption.querySelector<HTMLElement>("p")!.textContent = p.desc;
-          caption.querySelector<HTMLElement>(`.${styles.wcTags}`)!.innerHTML =
-            p.tags
-              .map((t) => `<span class="${styles.ptag}">${t}</span>`)
-              .join("");
+          setCapIdx(i);
         },
       }).to(caption, {
         opacity: 1,
@@ -303,24 +293,58 @@ const WorksPanel = forwardRef<WorksPanelHandle, WorksPanelProps>(
       };
     }, [onGo, animating]);
 
-    /* works 키보드 — 스크롤 최상단에서 ArrowUp 시 hero로 이동만 처리 */
+    /* works 키보드 스크롤 — 방향키/PageUp·Down/Home·End 지원, 최상단 ArrowUp은 hero 이동 */
     useEffect(() => {
+      const STEP = 90;
       const handler = (e: KeyboardEvent) => {
         if (!isActiveRef.current || animating.current) return;
-        if (
-          e.key === "ArrowUp" &&
-          smoothY.current <= 1 &&
-          targetY.current <= 0
-        ) {
-          e.preventDefault();
-          onGo("hero");
+        const max = maxScroll.current;
+        switch (e.key) {
+          case "ArrowUp":
+            e.preventDefault();
+            if (smoothY.current <= 1 && targetY.current <= 0) onGo("hero");
+            else targetY.current = Math.max(0, targetY.current - STEP);
+            break;
+          case "ArrowDown":
+            e.preventDefault();
+            targetY.current = Math.min(max, targetY.current + STEP);
+            break;
+          case "PageUp":
+            e.preventDefault();
+            targetY.current = Math.max(0, targetY.current - innerHeight * 0.8);
+            break;
+          case "PageDown":
+            e.preventDefault();
+            targetY.current = Math.min(max, targetY.current + innerHeight * 0.8);
+            break;
+          case "Home":
+            e.preventDefault();
+            targetY.current = 0;
+            break;
+          case "End":
+            e.preventDefault();
+            targetY.current = max;
+            break;
         }
       };
       window.addEventListener("keydown", handler);
       return () => window.removeEventListener("keydown", handler);
     }, [onGo, animating]);
 
-    const p0 = PROJECTS[0];
+    /* Tab 포커스 이동 시 브라우저가 overflow:hidden 컨테이너를 임의로 스크롤하는 것 방지 —
+       스크롤 위치는 transform으로만 제어하므로 네이티브 스크롤은 항상 0으로 되돌림 */
+    useEffect(() => {
+      const el = sectionRef.current;
+      if (!el) return;
+      const onScroll = () => {
+        el.scrollTop = 0;
+        el.scrollLeft = 0;
+      };
+      el.addEventListener("scroll", onScroll);
+      return () => el.removeEventListener("scroll", onScroll);
+    }, []);
+
+    const cap = PROJECTS[capIdx];
 
     return (
       <section
@@ -331,11 +355,11 @@ const WorksPanel = forwardRef<WorksPanelHandle, WorksPanelProps>(
       >
         <AuroraBackground reduced={reduced} />
         <div className={styles.caption} ref={captionRef}>
-          <div className={styles.wcIdx}>{p0.idx}</div>
-          <h2>{p0.title}</h2>
-          <p>{p0.desc}</p>
+          <div className={styles.wcIdx}>{cap.idx}</div>
+          <h2>{cap.title}</h2>
+          <p>{cap.desc}</p>
           <div className={styles.wcTags}>
-            {p0.tags.map((t) => (
+            {cap.tags.map((t) => (
               <span key={t} className={styles.ptag}>
                 {t}
               </span>
@@ -372,13 +396,15 @@ const WorksPanel = forwardRef<WorksPanelHandle, WorksPanelProps>(
                     if (el) imgsRef.current[i] = el;
                   }}
                 >
-                  <img
-                    className={styles.thumbImg}
-                    src={proj.img}
-                    alt={proj.title}
-                    loading="eager"
-                    decoding="async"
-                  />
+                  {proj.img && (
+                    <img
+                      className={styles.thumbImg}
+                      src={proj.img}
+                      alt={proj.title}
+                      loading="eager"
+                      decoding="async"
+                    />
+                  )}
                   {proj.video && (
                     <video
                       className={styles.thumbVideo}
@@ -405,9 +431,19 @@ const WorksPanel = forwardRef<WorksPanelHandle, WorksPanelProps>(
                     href={proj.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    aria-label={`${proj.title} 바로가기`}
+                    aria-label={`${proj.title} 바로가기 (새 창 열림)`}
+                    onFocus={() => {
+                      /* 키보드 포커스 시 해당 프로젝트가 화면 중앙에 오도록 스크롤 동기화 */
+                      const m = itemMetrics.current[i];
+                      if (!m) return;
+                      targetY.current = gsap.utils.clamp(
+                        0,
+                        maxScroll.current,
+                        m.top + m.height / 2 - innerHeight / 2
+                      );
+                    }}
                   >
-                    바로가기 ↗
+                    바로가기 <span aria-hidden="true">↗</span>
                   </a>
                 )}
               </div>
@@ -415,7 +451,10 @@ const WorksPanel = forwardRef<WorksPanelHandle, WorksPanelProps>(
           ))}
 
           <div className={styles.cta}>
-            <h3>다음 경험을 함께 만들어갈 준비가 되어 있습니다. ✏️</h3>
+            <h3>
+              다음 <strong>경험</strong>을 함께 만들어갈 <br />
+              준비가 되어 있습니다.
+            </h3>
             <div className={common.links}>
               <a
                 className={`${common.btn}`}
@@ -425,7 +464,7 @@ const WorksPanel = forwardRef<WorksPanelHandle, WorksPanelProps>(
                   onGo("contact");
                 }}
               >
-                Contact →
+                Contact <span aria-hidden="true">→</span>
               </a>
               <a
                 className={common.btn}
@@ -435,7 +474,7 @@ const WorksPanel = forwardRef<WorksPanelHandle, WorksPanelProps>(
                   onGo("career");
                 }}
               >
-                Career →
+                Career <span aria-hidden="true">→</span>
               </a>
             </div>
             <div className={styles.foot}>Let's build something better.</div>

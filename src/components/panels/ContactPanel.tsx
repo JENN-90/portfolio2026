@@ -62,7 +62,7 @@ const ContactPanel = forwardRef<HTMLElement, ContactPanelProps>(
         <AuroraBackground reduced={reduced} />
         {/* <div className={common.eyebrow}>Contact</div> */}
         <h1>
-          <b>UI를 설계</b>하고, <b>경험을 구현</b>합니다.
+          <strong>UI를 설계</strong>하고, <strong>경험을 구현</strong>합니다.
         </h1>
         <p className={common.sub}>
           좋은 UI는 보기 좋은 화면에서 끝나지 않습니다. <br />
@@ -87,6 +87,8 @@ const ContactPanel = forwardRef<HTMLElement, ContactPanelProps>(
             className={`${common.btn}`}
             href="https://github.com/JENN-90"
             target="_blank"
+            rel="noopener noreferrer"
+            aria-label="GitHub (새 창 열림)"
           >
             GitHub
           </a>
@@ -103,6 +105,9 @@ const ContactPanel = forwardRef<HTMLElement, ContactPanelProps>(
             <input
               className={styles.field}
               type="text"
+              name="name"
+              autoComplete="name"
+              aria-label="이름"
               placeholder="이름(Name)"
               value={name}
               onChange={(e) => setName(e.target.value)}
@@ -111,6 +116,9 @@ const ContactPanel = forwardRef<HTMLElement, ContactPanelProps>(
             <input
               className={styles.field}
               type="email"
+              name="email"
+              autoComplete="email"
+              aria-label="이메일"
               placeholder="메일(Email)"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -119,6 +127,8 @@ const ContactPanel = forwardRef<HTMLElement, ContactPanelProps>(
           </div>
           <textarea
             className={`${styles.field} ${styles.textarea}`}
+            name="message"
+            aria-label="메시지"
             placeholder="전하고 싶은 메시지를 남겨주세요"
             value={message}
             onChange={(e) => setMessage(e.target.value)}

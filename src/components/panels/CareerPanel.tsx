@@ -113,7 +113,12 @@ const CareerPanel = forwardRef<CareerPanelHandle, CareerPanelProps>(
                     <span className={styles.expToggle} aria-hidden="true" />
                   </button>
 
-                  <div className={styles.expBody} id={`exp-body-${exp.id}`}>
+                  {/* 닫힘 상태에서는 inert로 스크린리더/포커스 접근 차단 — grid 0fr은 시각적으로만 숨김 */}
+                  <div
+                    className={styles.expBody}
+                    id={`exp-body-${exp.id}`}
+                    inert={!open}
+                  >
                     <div className={styles.expBodyInner}>
                       <div className={styles.expCard}>
                         {exp.groups.map((group) => (
