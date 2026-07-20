@@ -56,13 +56,13 @@ const PROJECT_ITEMS: Omit<Project, "idx">[] = [
   },
   {
     title: "AI-driven Console Admin",
-    desc: "AI-driven pipeline 구현 과정에서 UI 일관성을 지키기위한 rule 을 적용하고, 타 부서와의 협업 자동화를 위한 jira comment 자동작성 스크립트를 작업했습니다.\nWEMIX PAY · DEX.",
+    desc: "AI-driven 파이프라인 과정에서 UI일관성 유지를 위한 협업 스크립트 작업을 수행했습니다.\nWEMIX PAY · DEX.",
     tags: ["Vite", "AI-driven", "BackOffice"],
     label: "AI-Driven",
   },
   {
     title: "WEB3 게임 글로벌 사전예약 FE 및 UI 개발",
-    desc: "ROM, Legend of YMIR 등 글로벌 타이틀의 사전예약 프로모션의 UI 개발작업.\n악마단 돌겨억(Hell Squad RRRush) 사전예약의 FE개발 및 UI 제작을 담당했습니다.",
+    desc: "ROM, Legend of YMIR 등 글로벌 타이틀의 사전예약 프로모션의 UI를 제작하였습니다.",
     tags: ["Next.js", "Promotion"],
     img: img("works-thumbnail-web3.png"),
     label: "생성형 AI를 활용하여 제작된 영상입니다.",
@@ -79,7 +79,7 @@ const PROJECT_ITEMS: Omit<Project, "idx">[] = [
   },
   {
     title: "Welcome F&D",
-    desc: "웰컴금융그룹 계열사 웹사이트를 담당하며 신규 구축 프로젝트를 진행했습니다.\nWelcome Leasing LAO 리뉴얼, 웰컴파이낸스 필리핀(WBP)",
+    desc: "웰컴금융그룹   계열사 웹사이트를 담당하며 신규 구축 프로젝트를 진행했습니다.\nWelcome Leasing LAO, 웰컴파이낸스 필리핀, 렌탈 Backoffice",
     tags: ["HTML", "SCSS", "Responsive"],
     img: img("works-thumbnail-welcome.webp"),
     label: "생성형 AI를 활용하여 제작된 영상입니다.",

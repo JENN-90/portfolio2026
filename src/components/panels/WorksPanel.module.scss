@@ -134,7 +134,12 @@
   justify-content: center;
   text-align: center;
   pointer-events: none;
-  padding: 0 24px;
+  padding: 0 60px;
+  word-break: keep-all;
+
+  @media screen and (min-width: 1280px) {
+    padding: 0 24px;
+  }
 
   h2 {
     font-size: clamp(1.625rem, 4.6vw, 3.375rem);
@@ -212,7 +217,7 @@
 
 .progress {
   position: absolute;
-  right: 26px;
+  right: 16px;
   top: 50%;
   transform: translateY(-50%);
   z-index: 30;
@@ -220,12 +225,19 @@
   flex-direction: column;
   gap: 8px;
 
+  @media screen and (min-width: 1280px) {
+    right: 26px;
+  }
+
   span {
     width: 4px;
-    height: 22px;
+    height: 8px;
     border-radius: 2px;
     background: rgba(255, 255, 255, 0.12);
     transition: background 0.4s;
+    @media screen and (min-width: 1280px) {
+      height: 22px;
+    }
 
     &.on {
       background: var(--accent);
