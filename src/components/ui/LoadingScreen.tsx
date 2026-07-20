@@ -11,10 +11,10 @@ interface LoadingScreenProps {
 }
 
 const MESSAGES = [
-  "이 프로젝트의 일부 영상 및 이미지는 공식 자료가 아닌 생성형 AI로 제작되었습니다",
-  "로딩중입니다. 잠시만 기다려주세요!",
-
-  "곧 시작됩니다!",
+  "화면 너머의 사용자를 먼저 생각하고 고민합니다",
+  "픽셀 정리중...",
+  "디테일을 다듬는 중입니다...",
+  "다 왔어요!",
 ];
 
 const RADIUS = 90;
@@ -22,7 +22,7 @@ const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
 
 export default function LoadingScreen({
   onComplete,
-  duration = 5000,
+  duration = 7000,
 }: LoadingScreenProps) {
   const reduced = useMemo(
     () => window.matchMedia("(prefers-reduced-motion: reduce)").matches,
@@ -69,23 +69,32 @@ export default function LoadingScreen({
     });
   }, [fadingOut, onComplete]);
 
-  /* 2초마다 순차적으로 텍스트 전환 */
+  /* 전체 로딩 시간을 메시지 수만큼 균등 분할하여 순차 전환 */
   useEffect(() => {
+    const interval = duration / MESSAGES.length;
     const id = setInterval(() => {
       setMessage((prev) => {
-        const next = (MESSAGES.indexOf(prev) + 1) % MESSAGES.length;
+        const next = MESSAGES.indexOf(prev) + 1;
+        if (next >= MESSAGES.length) {
+          clearInterval(id);
+          return prev;
+        }
         return MESSAGES[next];
       });
-    }, 2000);
+    }, interval);
     return () => clearInterval(id);
-  }, []);
+  }, [duration]);
 
   return (
     <div className={styles.root} ref={rootRef}>
       <AuroraBackground reduced={reduced} />
       <div className={styles.content}>
         <div className={styles.gaugeWrap}>
-          <svg className={styles.gauge} viewBox="0 0 200 200" aria-hidden="true">
+          <svg
+            className={styles.gauge}
+            viewBox="0 0 200 200"
+            aria-hidden="true"
+          >
             <defs>
               <linearGradient
                 id="gaugeGradient"
