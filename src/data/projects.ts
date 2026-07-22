@@ -42,7 +42,7 @@ const PROJECT_ITEMS: Omit<Project, "idx">[] = [
     tags: ["Next.js", "Interaction", "GSAP", "ScrollTrigger"],
     img: img("works-thumbnail-wemade.webp"),
     label: "WEMADE Official",
-    video: video("works-thumbnail-wemade.webm"),
+    videoWebm: video("works-thumbnail-wemade.webm"),
     link: "https://www.wemade.com/", // 바로가기 URL
   },
   {
@@ -60,6 +60,14 @@ const PROJECT_ITEMS: Omit<Project, "idx">[] = [
     tags: ["Vite", "AI-driven", "BackOffice"],
     label: "AI-Driven",
   },
+  // {
+  //   title: "StabletNet",
+  //   desc: "Framer Motion 라이브러리를 활용하여 스크롤 인터랙션을 구현하였습니다. ",
+  //   tags: ["Next.js", "Framer Motion"],
+  //   img: img("works-thumbnail-web3.png"),
+  //   label: "생성형 AI를 활용하여 제작된 영상입니다.",
+  //   video: video("works-thumbnail-web3.mp4"),
+  // },
   {
     title: "WEB3 게임 글로벌 사전예약 FE 및 UI 개발",
     desc: "ROM, Legend of YMIR 등 글로벌 타이틀의 사전예약 프로모션의 UI를 제작하였습니다.",

@@ -405,7 +405,7 @@ const WorksPanel = forwardRef<WorksPanelHandle, WorksPanelProps>(
                       decoding="async"
                     />
                   )}
-                  {proj.video && (
+                  {(proj.video || proj.videoWebm) && (
                     <video
                       className={styles.thumbVideo}
                       muted
@@ -419,7 +419,9 @@ const WorksPanel = forwardRef<WorksPanelHandle, WorksPanelProps>(
                       {proj.videoWebm && (
                         <source src={proj.videoWebm} type="video/webm" />
                       )}
-                      <source src={proj.video} type="video/mp4" />
+                      {proj.video && (
+                        <source src={proj.video} type="video/mp4" />
+                      )}
                     </video>
                   )}
                 </div>
