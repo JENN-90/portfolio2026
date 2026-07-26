@@ -83,7 +83,7 @@ const ContactPanel = forwardRef<HTMLElement, ContactPanelProps>(
           >
             Email
           </a>
-          <a
+          {/* <a
             className={`${common.btn}`}
             href="https://github.com/JENN-90"
             target="_blank"
@@ -91,7 +91,7 @@ const ContactPanel = forwardRef<HTMLElement, ContactPanelProps>(
             aria-label="GitHub (새 창 열림)"
           >
             GitHub
-          </a>
+          </a> */}
           {/* <a
             className={`${common.btn} ${common.secondary}`}
             href="#"
