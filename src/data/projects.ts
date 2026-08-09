@@ -83,6 +83,7 @@ const PROJECT_ITEMS: Omit<Project, "idx">[] = [
     label: "",
     // video: video("works-thumbnail-web3.mp4"),
     chipColor: ChipColor.Purple,
+    link: "https://stablenet.network/ko",
   },
   {
     title: "WEB3 게임 글로벌 사전예약 FE 및 UI 개발",

@@ -9,7 +9,9 @@ gsap.registerPlugin(ScrollTrigger);
 export default function CareerSection() {
   const listRef = useRef<HTMLDivElement>(null);
   const panelRefs = useRef<Record<string, HTMLDivElement | null>>({});
-  const [openId, setOpenId] = useState<string | null>(EXPERIENCES[0]?.id ?? null);
+  const [openIds, setOpenIds] = useState<Set<string>>(
+    () => new Set(EXPERIENCES.map((exp) => exp.id))
+  );
 
   useEffect(() => {
     const cards = listRef.current?.querySelectorAll(`.${styles.careerCard}`);
@@ -31,12 +33,17 @@ export default function CareerSection() {
   useEffect(() => {
     Object.entries(panelRefs.current).forEach(([id, el]) => {
       if (!el) return;
-      el.style.maxHeight = id === openId ? `${el.scrollHeight}px` : "0px";
+      el.style.maxHeight = openIds.has(id) ? `${el.scrollHeight}px` : "0px";
     });
-  }, [openId]);
+  }, [openIds]);
 
   const toggle = (id: string) => {
-    setOpenId((prev) => (prev === id ? null : id));
+    setOpenIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
   };
 
   return (
@@ -63,7 +70,7 @@ export default function CareerSection() {
 
         <div className={styles.careerList} ref={listRef}>
           {EXPERIENCES.map((exp, i) => {
-            const open = openId === exp.id;
+            const open = openIds.has(exp.id);
             return (
               <div
                 key={exp.id}
@@ -95,7 +102,9 @@ export default function CareerSection() {
                     <div className={styles.roleLine}>{exp.role}</div>
                   </div>
                   <div className={styles.careerPeriod}>
-                    <span className={`${styles.period} mono`}>{exp.period}</span>
+                    <span className={`${styles.period} mono`}>
+                      {exp.period}
+                    </span>
                     <div className={styles.toggleBtn}>{open ? "−" : "+"}</div>
                   </div>
                 </div>
