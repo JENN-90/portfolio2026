@@ -22,13 +22,14 @@ const video = (filename: string) => {
 };
 
 // WorkSection 카드 상단 chip 색상 — globals.scss의 --c1~--c5 변수와 매칭됨
-export enum ChipColor {
-  Red = "var(--c1)",
-  Blue = "var(--c2)",
-  Yellow = "var(--c3)",
-  Purple = "var(--c4)",
-  Green = "var(--c5)",
-}
+export const ChipColor = {
+  Red: "var(--c1)",
+  Blue: "var(--c2)",
+  Yellow: "var(--c3)",
+  Purple: "var(--c4)",
+  Green: "var(--c5)",
+} as const;
+export type ChipColor = (typeof ChipColor)[keyof typeof ChipColor];
 
 export interface Project {
   idx: string; // 배열 순서대로 자동 부여됨 (예: "01 / 04") — 직접 작성하지 않음
