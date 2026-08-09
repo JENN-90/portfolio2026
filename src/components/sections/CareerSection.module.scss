@@ -1,0 +1,246 @@
+.careerHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 32px;
+  margin-bottom: 56px;
+  flex-wrap: wrap;
+
+  h2 {
+    font-size: clamp(32px, 4.6vw, 50px);
+    font-weight: 600;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+  }
+
+  @media (max-width: 700px) {
+    align-items: flex-start;
+  }
+}
+
+.eyebrow {
+  font-size: 13px;
+  color: var(--c2);
+  margin-bottom: 14px;
+  letter-spacing: 0.02em;
+}
+
+.careerStats {
+  text-align: right;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 14px;
+  color: var(--text-muted);
+
+  b {
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  @media (max-width: 700px) {
+    text-align: left;
+  }
+}
+
+.c1 {
+  color: var(--c1);
+}
+.c2 {
+  color: var(--c2);
+}
+.c4 {
+  color: var(--c4);
+}
+
+.tagline {
+  margin-top: 6px;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.careerList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.careerCard {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px 30px;
+  opacity: 0;
+  transform: translateY(20px);
+  overflow: hidden;
+}
+
+.careerSummary {
+  display: grid;
+  grid-template-columns: 44px 1fr auto;
+  gap: 20px;
+  align-items: start;
+  cursor: pointer;
+
+  @media (max-width: 700px) {
+    grid-template-columns: 28px 1fr;
+  }
+}
+
+.idx {
+  font-size: 13px;
+  color: var(--text-muted);
+  padding-top: 4px;
+}
+
+.careerTitle {
+  h3 {
+    font-size: 21px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+}
+
+.badgeCurrent {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--c5);
+  border: 1px solid var(--c5);
+  border-radius: 999px;
+  padding: 3px 10px;
+  letter-spacing: 0.03em;
+}
+
+.roleLine {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin-top: 6px;
+}
+
+.careerPeriod {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+
+  @media (max-width: 700px) {
+    grid-column: 2;
+    justify-content: flex-start;
+    margin-top: 6px;
+  }
+}
+
+.period {
+  font-size: 13px;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.toggleBtn {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1.5px solid var(--border);
+  background: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  color: var(--text-muted);
+  transition: all 0.25s ease;
+  flex-shrink: 0;
+
+  .open > .careerSummary & {
+    background: var(--c2);
+    border-color: var(--c2);
+    color: #fff;
+    transform: rotate(180deg);
+  }
+}
+
+.careerDesc {
+  font-size: 14px;
+  color: var(--text-muted);
+  line-height: 1.75;
+  margin-top: 18px;
+  padding-left: 64px;
+
+  @media (max-width: 700px) {
+    padding-left: 0;
+    margin-top: 14px;
+  }
+}
+
+.careerPanel {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease;
+  padding-left: 64px;
+
+  .open & {
+    margin-top: 20px;
+  }
+
+  @media (max-width: 700px) {
+    padding-left: 0;
+  }
+}
+
+.detailBox {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 24px 26px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.detailGroup {
+  h4 {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    margin-bottom: 10px;
+  }
+
+  &:nth-of-type(1) h4 {
+    color: var(--c1);
+  }
+  &:nth-of-type(2) h4 {
+    color: var(--c2);
+  }
+  &:nth-of-type(3) h4 {
+    color: var(--c4);
+  }
+
+  ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  li {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.6;
+    padding-left: 14px;
+    position: relative;
+
+    &::before {
+      content: "·";
+      position: absolute;
+      left: 0;
+      color: var(--text-muted);
+    }
+  }
+
+  p {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+}

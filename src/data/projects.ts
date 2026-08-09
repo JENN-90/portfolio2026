@@ -21,6 +21,15 @@ const video = (filename: string) => {
   return url;
 };
 
+// WorkSection 카드 상단 chip 색상 — globals.scss의 --c1~--c5 변수와 매칭됨
+export enum ChipColor {
+  Red = "var(--c1)",
+  Blue = "var(--c2)",
+  Yellow = "var(--c3)",
+  Purple = "var(--c4)",
+  Green = "var(--c5)",
+}
+
 export interface Project {
   idx: string; // 배열 순서대로 자동 부여됨 (예: "01 / 04") — 직접 작성하지 않음
   title: string;
@@ -32,67 +41,76 @@ export interface Project {
   video?: string;
   videoWebm?: string; // video의 webm 소스 — 있으면 <source>로 mp4보다 우선 시도됨
   link?: string; // 바로가기 URL — 있으면 썸네일에 바로가기 버튼이 렌더링됨
+  chipColor: ChipColor; // WorkSection 카드 상단 chip 색상
 }
 
 /* 작성된 순서대로 idx가 자동 부여됨 — 순서를 바꾸거나 추가/삭제해도 번호와 total이 자동 갱신 */
 const PROJECT_ITEMS: Omit<Project, "idx">[] = [
   {
     title: "위메이드 공식 홈페이지",
-    desc: "GSAP ScrollTrigger 기반 스크롤 인터랙션으로 기업 스토리에 리듬을 만들었습니다.\nMain · Work with us · IR.",
+    desc: "GSAP ScrollTrigger 라이브러리 활용, 스크롤 인터랙션으로 기업 스토리에 리듬을 만들었습니다.\n참여페이지 : 메인·소개&채용(Work with us)·IR ",
     tags: ["Next.js", "Interaction", "GSAP", "ScrollTrigger"],
     img: img("works-thumbnail-wemade.webp"),
     label: "WEMADE Official",
     videoWebm: video("works-thumbnail-wemade.webm"),
     link: "https://www.wemade.com/", // 바로가기 URL
+    chipColor: ChipColor.Purple,
   },
   {
     title: "WEMIXPLAY 4.0",
     desc: "리뉴얼 초기 단계부터 참여해 UI 시스템의 뼈대를 만들었습니다.\n다크·라이트 테마, 아톰 컴포넌트 + storybook.",
     tags: ["Next.js", "UI System", "Storybook"],
     img: img("works-thumbnail-wemixplay.webp"),
-    label: "생성형 AI를 활용하여 제작된 영상입니다.",
+    label: "",
     video: video("works-thumbnail-wemixplay.mp4"),
     link: "https://wemixplay.com/", // 바로가기 URL
+    chipColor: ChipColor.Purple,
   },
   {
     title: "AI-driven Console Admin",
     desc: "AI-driven 파이프라인 과정에서 UI일관성 유지를 위한 협업 스크립트 작업을 수행했습니다.\nWEMIX PAY · DEX.",
     tags: ["Vite", "AI-driven", "BackOffice"],
+    img: img("works-thumbnail-backoffice.webp"),
     label: "AI-Driven",
+    chipColor: ChipColor.Purple,
   },
-  // {
-  //   title: "StabletNet",
-  //   desc: "Framer Motion 라이브러리를 활용하여 스크롤 인터랙션을 구현하였습니다. ",
-  //   tags: ["Next.js", "Framer Motion"],
-  //   img: img("works-thumbnail-web3.png"),
-  //   label: "생성형 AI를 활용하여 제작된 영상입니다.",
-  //   video: video("works-thumbnail-web3.mp4"),
-  // },
+  {
+    title: "StabletNet",
+    desc: "Framer Motion 라이브러리를 활용하여 스크롤 인터랙션을 구현하였습니다. ",
+    tags: ["Next.js", "Framer Motion"],
+    img: img("works-thumbnail-stablenet.webp"),
+    label: "",
+    // video: video("works-thumbnail-web3.mp4"),
+    chipColor: ChipColor.Purple,
+  },
   {
     title: "WEB3 게임 글로벌 사전예약 FE 및 UI 개발",
-    desc: "ROM, Legend of YMIR 등 글로벌 타이틀의 사전예약 프로모션의 UI를 제작하였습니다.",
+    desc: "ROM, Legend of YMIR 등 글로벌 타이틀의 사전예약 프로모션의 UI를 제작하였고, 악마단돌겨억(Hell Squad Rrrush)의 사전예약 프로모션에서 UI 및 FE 개발을 담당했습니다.",
     tags: ["Next.js", "Promotion"],
-    img: img("works-thumbnail-web3.png"),
-    label: "생성형 AI를 활용하여 제작된 영상입니다.",
+    img: img("works-thumbnail-web3.webp"),
+    label: "",
     video: video("works-thumbnail-web3.mp4"),
+    chipColor: ChipColor.Purple,
   },
   {
     title: "윙크스톤파트너스",
     desc: "핀테크 스타트업의 기업 홈페이지와 대출·투자 서비스 사이트 리뉴얼을 담당했습니다.",
     tags: ["HTML", "SCSS", "Responsive"],
     img: img("works-thumbnail-wink.webp"),
-    label: "생성형 AI를 활용하여 제작된 영상입니다.",
+    label: "",
     video: video("works-thumbnail-wink.mp4"),
     link: "https://www.winkstonepartners.com/",
+    chipColor: ChipColor.Red,
   },
   {
     title: "Welcome F&D",
     desc: "웰컴금융그룹   계열사 웹사이트를 담당하며 신규 구축 프로젝트를 진행했습니다.\nWelcome Leasing LAO, 웰컴파이낸스 필리핀, 렌탈 Backoffice",
     tags: ["HTML", "SCSS", "Responsive"],
     img: img("works-thumbnail-welcome.webp"),
-    label: "생성형 AI를 활용하여 제작된 영상입니다.",
+    label: "",
     video: video("works-thumbnail-welcome.mp4"),
     link: "https://www.welcomefnd.com/",
+    chipColor: ChipColor.Red,
   },
 ];
 
@@ -102,38 +120,3 @@ export const PROJECTS: Project[] = PROJECT_ITEMS.map((item, i) => ({
   ...item,
   idx: `${pad2(i + 1)} / ${pad2(PROJECT_ITEMS.length)}`,
 }));
-
-export type PanelName = "hero" | "contact" | "career" | "works";
-
-export const GRID: Record<PanelName, [number, number]> = {
-  contact: [-1, 0],
-  hero: [0, 0],
-  career: [1, 0],
-  works: [0, 1],
-};
-
-export const NAV_MAP: Record<
-  PanelName,
-  Partial<Record<"left" | "right" | "up" | "down", PanelName>>
-> = {
-  hero: { left: "contact", right: "career", down: "works" },
-  contact: { right: "hero" },
-  career: { left: "hero" },
-  works: { up: "hero" },
-};
-
-export const ROUTE: Record<PanelName, string> = {
-  hero: "#/",
-  contact: "#/contact",
-  career: "#/career",
-  works: "#/works",
-};
-
-export const FROM_ROUTE: Record<string, PanelName> = {
-  "#/": "hero",
-  "#/contact": "contact",
-  "#/career": "career",
-  "#/works": "works",
-  "": "hero",
-  "#": "hero",
-};

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import './styles/globals.scss';
-import CubeStage from './components/CubeStage';
+import Page from './components/Page';
 import LoadingScreen from './components/ui/LoadingScreen';
 
 const VISITED_KEY = 'portfolio:visited';
@@ -16,7 +16,7 @@ export default function App() {
   return (
     <>
       {loading && <LoadingScreen onComplete={handleLoadingComplete} />}
-      <CubeStage playHeroVideo={!loading} />
+      <Page />
     </>
   );
 }

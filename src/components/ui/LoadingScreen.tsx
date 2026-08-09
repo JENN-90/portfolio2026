@@ -1,6 +1,5 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
-import AuroraBackground from "./AuroraBackground";
 import styles from "./LoadingScreen.module.scss";
 
 interface LoadingScreenProps {
@@ -22,13 +21,8 @@ const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
 
 export default function LoadingScreen({
   onComplete,
-  duration = 7000,
+  duration = 2200,
 }: LoadingScreenProps) {
-  const reduced = useMemo(
-    () => window.matchMedia("(prefers-reduced-motion: reduce)").matches,
-    []
-  );
-
   const [percent, setPercent] = useState(0);
   const [message, setMessage] = useState(MESSAGES[0]);
   const [fadingOut, setFadingOut] = useState(false);
@@ -36,7 +30,6 @@ export default function LoadingScreen({
   const circleRef = useRef<SVGCircleElement>(null);
   const rootRef = useRef<HTMLDivElement>(null);
 
-  /* 원형 프로그레스바 채우기 애니메이션 */
   useEffect(() => {
     const tween = gsap.to(progressRef.current, {
       value: 100,
@@ -58,18 +51,16 @@ export default function LoadingScreen({
     };
   }, [duration]);
 
-  /* 완료 후 페이드아웃 */
   useEffect(() => {
     if (!fadingOut || !rootRef.current) return;
     gsap.to(rootRef.current, {
       opacity: 0,
-      duration: 0.6,
+      duration: 0.5,
       ease: "power1.out",
       onComplete,
     });
   }, [fadingOut, onComplete]);
 
-  /* 전체 로딩 시간을 메시지 수만큼 균등 분할하여 순차 전환 */
   useEffect(() => {
     const interval = duration / MESSAGES.length;
     const id = setInterval(() => {
@@ -87,7 +78,6 @@ export default function LoadingScreen({
 
   return (
     <div className={styles.root} ref={rootRef}>
-      <AuroraBackground reduced={reduced} />
       <div className={styles.content}>
         <div className={styles.gaugeWrap}>
           <svg
@@ -103,8 +93,8 @@ export default function LoadingScreen({
                 x2="100%"
                 y2="100%"
               >
-                <stop offset="0%" stopColor="#c9b8ff" />
-                <stop offset="100%" stopColor="#6b4fff" />
+                <stop offset="0%" stopColor="var(--c1)" />
+                <stop offset="100%" stopColor="var(--c2)" />
               </linearGradient>
             </defs>
             <circle className={styles.track} cx="100" cy="100" r={RADIUS} />
