@@ -1,8 +1,8 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
 import { PROJECTS, type Project } from "../../data/projects";
-import WorkModal from "./WorkModal";
+import { navigateWithTransition } from "../ui/PageTransition";
 import styles from "./WorkSection.module.scss";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -14,7 +14,6 @@ export default function WorkSection() {
   const gridRef = useRef<HTMLDivElement>(null);
   const colARef = useRef<HTMLDivElement>(null);
   const colBRef = useRef<HTMLDivElement>(null);
-  const [activeProject, setActiveProject] = useState<Project | null>(null);
 
   useEffect(() => {
     const cards = gridRef.current?.querySelectorAll(`.${styles.card}`);
@@ -54,8 +53,8 @@ export default function WorkSection() {
     return () => triggers.forEach((t) => t.kill());
   }, []);
 
-  const openModal = (project: Project) => setActiveProject(project);
-  const closeModal = () => setActiveProject(null);
+  const openProject = (project: Project) =>
+    navigateWithTransition(`/work/${project.slug}`, project.chipColor);
 
   return (
     <section id="work">
@@ -67,18 +66,16 @@ export default function WorkSection() {
         <div className={styles.workGrid} ref={gridRef}>
           <div className={styles.col} ref={colARef}>
             {COL_A.map((proj) => (
-              <WorkCard key={proj.title} project={proj} onOpen={openModal} />
+              <WorkCard key={proj.title} project={proj} onOpen={openProject} />
             ))}
           </div>
           <div className={`${styles.col} ${styles.colB}`} ref={colBRef}>
             {COL_B.map((proj) => (
-              <WorkCard key={proj.title} project={proj} onOpen={openModal} />
+              <WorkCard key={proj.title} project={proj} onOpen={openProject} />
             ))}
           </div>
         </div>
       </div>
-
-      <WorkModal project={activeProject} onClose={closeModal} />
     </section>
   );
 }

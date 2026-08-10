@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
 import ScrollProgress from "./ui/ScrollProgress";
@@ -16,6 +17,7 @@ const SECTION_IDS: SectionId[] = ["work", "career", "contact"];
 
 export default function Page() {
   const [active, setActive] = useState<SectionId | "">("");
+  const { hash } = useLocation();
 
   useEffect(() => {
     const triggers = SECTION_IDS.map((id) => {
@@ -30,22 +32,35 @@ export default function Page() {
       });
     });
 
-    gsap.utils.toArray<HTMLElement>(".reveal").forEach((el) => {
-      gsap.to(el, {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        ease: "power3.out",
-        scrollTrigger: { trigger: el, start: "top 88%" },
-      });
-    });
+    const revealTweens = gsap.utils
+      .toArray<HTMLElement>(".reveal")
+      .map((el) =>
+        gsap.to(el, {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: "power3.out",
+          scrollTrigger: { trigger: el, start: "top 88%" },
+        })
+      );
 
     ScrollTrigger.refresh();
 
     return () => {
       triggers.forEach((t) => t?.kill());
+      revealTweens.forEach((t) => t.scrollTrigger?.kill());
     };
   }, []);
+
+  useEffect(() => {
+    if (!hash) return;
+    requestAnimationFrame(() => {
+      ScrollTrigger.refresh();
+      document
+        .getElementById(hash.slice(1))
+        ?.scrollIntoView({ behavior: "smooth" });
+    });
+  }, [hash]);
 
   return (
     <>
