@@ -75,6 +75,7 @@ export default function CareerSection() {
               <div
                 key={exp.id}
                 className={`${styles.careerCard} ${open ? styles.open : ""}`}
+                style={{ "--accent": exp.accentColor } as React.CSSProperties}
               >
                 <div
                   className={styles.careerSummary}
@@ -120,7 +121,8 @@ export default function CareerSection() {
                   <div className={styles.detailBox}>
                     {exp.groups.map((group) => (
                       <div key={group.title} className={styles.detailGroup}>
-                        <h4>{group.title}</h4>
+                        {group.title && <h4>{group.title}</h4>}
+
                         {group.bullets && (
                           <ul>
                             {group.bullets.map((b) => (

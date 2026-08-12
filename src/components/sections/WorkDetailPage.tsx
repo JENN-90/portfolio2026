@@ -96,7 +96,11 @@ export default function WorkDetailPage() {
   }
 
   return (
-    <div className={styles.page} ref={rootRef}>
+    <div
+      className={styles.page}
+      ref={rootRef}
+      style={{ "--accent": project.chipColor } as React.CSSProperties}
+    >
       <button type="button" className={styles.back} onClick={goBack}>
         <span aria-hidden="true">←</span> Work
       </button>
@@ -127,36 +131,46 @@ export default function WorkDetailPage() {
             </span>
           ))}
         </div>
-        <div className={styles.hero} ref={heroRef}>
-          {project.video || project.videoWebm ? (
-            <video muted loop playsInline autoPlay>
-              {project.videoWebm && (
-                <source src={project.videoWebm} type="video/webm" />
-              )}
-              {project.video && <source src={project.video} type="video/mp4" />}
-            </video>
-          ) : project.img ? (
-            <img src={project.img} alt={project.title} />
-          ) : (
-            <span>cover image</span>
-          )}
-        </div>
+        {project.showHero !== false && (
+          <div className={styles.hero} ref={heroRef}>
+            {project.video || project.videoWebm ? (
+              <video muted loop playsInline autoPlay>
+                {project.videoWebm && (
+                  <source src={project.videoWebm} type="video/webm" />
+                )}
+                {project.video && (
+                  <source src={project.video} type="video/mp4" />
+                )}
+              </video>
+            ) : project.img ? (
+              <img src={project.img} alt={project.title} />
+            ) : (
+              <span>cover image</span>
+            )}
+          </div>
+        )}
 
         <div className={styles.details}>
           {project.details?.map((detail) => (
             <div
-              key={detail.title || detail.img}
+              key={detail.img || detail.texts[0]?.title}
               className={styles.item}
               ref={addDetailRef}
             >
               <div className={styles.image}>
-                <img src={detail.img} alt={detail.title} />
+                <img src={detail.img} alt={detail.texts[0]?.title ?? ""} />
               </div>
 
-              <div className={styles.description}>
-                <h3>{detail.title}</h3>
-                <p>{detail.desc}</p>
-              </div>
+              {detail.texts.length > 0 && (
+                <div className={styles.description}>
+                  {detail.texts.map((text) => (
+                    <div key={text.title} className={styles.textGroup}>
+                      <h3>{text.title}</h3>
+                      <p>{text.desc}</p>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           ))}
         </div>

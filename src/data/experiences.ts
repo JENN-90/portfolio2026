@@ -1,4 +1,5 @@
 /* 경력(Work Experience) 데이터 — CareerPanel 아코디언에서 사용 */
+import { ChipColor } from "./projects";
 
 export interface ExperienceGroup {
   title: string;
@@ -16,6 +17,7 @@ export interface Experience {
   summary: string;
   groups: ExperienceGroup[];
   tags: string[];
+  accentColor: ChipColor; // 카드 내 h4 등 대표 색상
 }
 
 export const EXPERIENCES: Experience[] = [
@@ -25,6 +27,7 @@ export const EXPERIENCES: Experience[] = [
     role: "WEMIXPLAY Front & 백오피스 UI 담당",
     period: "2022.11 — 현재",
     current: true,
+    accentColor: ChipColor.Purple,
     summary:
       "블록체인 게임 플랫폼 WEMIXPLAY의 3.0 → 4.0 리뉴얼에 초기 단계부터 UI 작업자로 참여했습니다. " +
       "AI-driven Admin 파이프라인에서는 UI 일관성 유지를 위한 UI 생성 Rule과 원활한 협업을 위한 Auto-Comment 스킬을 구현했으며, " +
@@ -62,12 +65,13 @@ export const EXPERIENCES: Experience[] = [
     name: "윙크스톤파트너스",
     role: "핀테크 서비스 웹 퍼블리싱",
     period: "2022.05 — 2022.11",
+    accentColor: ChipColor.Red,
     summary:
       "핀테크 스타트업에서 기업 홈페이지와 대출·투자 서비스 사이트 리뉴얼을 담당했습니다. " +
       "선정산 플랫폼 '데일리드림'을 유지보수하고 긱워커 대상 랜딩페이지를 반응형으로 제작하였습니다.",
     groups: [
       {
-        title: "주요 업무",
+        title: "",
         bullets: [
           "윙크스톤파트너스 기업 홈페이지 리뉴얼 — 반응형 웹 퍼블리싱",
           "윙크스톤 대출(loan.winkstone)·투자(invest.winkstone) 사이트 리뉴얼 — 랜딩 및 마이페이지 등",
@@ -82,13 +86,14 @@ export const EXPERIENCES: Experience[] = [
     name: "Welcome F&D",
     role: "웰컴금융그룹 — 금융 계열사 UI/퍼블리싱",
     period: "2021.03 — 2022.05",
+    accentColor: ChipColor.Red,
     summary:
       "웰컴금융그룹 계열사들의 웹사이트를 담당하며 웰컴캐피탈 PC/Mobile 신규 구축 프로젝트를 진행했습니다. " +
       "Welcome Leasing LAO 리뉴얼과 웰컴파이낸스 필리핀(WBP) 랜딩페이지 UI를 맡았고, " +
       "웰릭스렌탈 전산 UI 개선 등 금융 도메인 전반의 화면을 폭넓게 다뤘습니다.",
     groups: [
       {
-        title: "주요 업무",
+        title: "",
         bullets: [
           "Welcome Leasing LAO 리뉴얼",
           "웰컴캐피탈 홈페이지 PC/Mobile 신규 프로젝트 진행",
@@ -104,13 +109,14 @@ export const EXPERIENCES: Experience[] = [
     name: "아이스크림키즈",
     role: "교육 플랫폼 웹/앱 퍼블리싱",
     period: "2019.02 — 2020.11",
+    accentColor: ChipColor.Yellow,
     summary:
       "유아 교육 콘텐츠 플랫폼 '누리놀이'의 PC 웹사이트 리뉴얼과 유지보수, 이벤트·랜딩페이지를 담당했습니다. " +
       "'리틀홈런' PC/모바일 신규 웹사이트를 전담 구축하고, " +
       "'틴포' 창의력발달검사 하이브리드 앱 퍼블리싱까지 교육 서비스 전반의 화면을 만들었습니다.",
     groups: [
       {
-        title: "주요 업무",
+        title: "",
         bullets: [
           "누리놀이 PC 웹사이트 리뉴얼, 유지보수, 다운로드 이벤트·랜딩페이지 제작",
           "리틀홈런 PC/모바일 신규 웹사이트 담당",
@@ -125,13 +131,14 @@ export const EXPERIENCES: Experience[] = [
     name: "니트로아이",
     role: "교육기관·기업 홈페이지 신규 구축",
     period: "2015.07 — 2018.11",
+    accentColor: ChipColor.Green,
     summary:
       "경기도교육청 산하 초·중·고등학교 홈페이지를 일반형/반응형으로 신규 구축하며 웹 표준의 기본기를 다졌습니다. " +
       "세종교육청 초등학교 홈페이지 템플릿 제작과 경기도교육정보기록원 등 기관 사이트를 구축했고, " +
       "외국어고·예술고를 포함한 13개 이상의 학교 프로젝트를 수행했습니다.",
     groups: [
       {
-        title: "주요 업무",
+        title: "",
         bullets: [
           "경기도교육청 초·중·고등학교 신규 홈페이지 일반형/반응형 구축",
           "일반 기업, 기관, 경기도교육정보기록원 홈페이지 신규 구축",
@@ -139,7 +146,7 @@ export const EXPERIENCES: Experience[] = [
         ],
       },
       {
-        title: "참여 학교",
+        title: "교육청 소재 초·중·고등학교 홈페이지 신규 구축 참여리스트",
         note:
           "대원외국어고등학교 · 그라시아스 음악학교 · 여주 방과후 학교 지원센터 · 예닮 글로벌학교 · 대일외국어고등학교 · " +
           "동화중학교 · 동일공업고등학교 · 명덕외국어고등학교 · 계원예술고등학교 · 경기외국어고등학교 · " +

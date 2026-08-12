@@ -172,7 +172,7 @@
 .details {
   display: flex;
   flex-direction: column;
-  gap: 36px;
+  gap: 80px;
   margin-top: 30px;
   padding-bottom: 100px;
 
@@ -189,11 +189,30 @@
 
   .description {
     font-size: 13px;
-    padding-top: 10px;
     color: var(--text-muted);
+    margin-left: auto;
+    margin-right: auto;
+    word-break: keep-all;
+    padding: 30px 15%;
+    background: #f7f7f7;
+    margin-top: 20px;
+    border-radius: 14px;
+
+    .textGroup {
+      & + .textGroup {
+        margin-top: 24px;
+      }
+    }
 
     h3 {
+      font-size: 20px;
+      font-weight: bold;
       white-space: pre-line;
+      color: var(--accent);
+    }
+    p {
+      font-size: 16px;
+      padding-top: 10px;
     }
   }
 }
