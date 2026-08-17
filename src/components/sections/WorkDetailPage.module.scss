@@ -178,11 +178,18 @@
 
   .image {
     position: relative;
-    border-radius: 14px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
     overflow: hidden;
-    border: 1px solid var(--border);
-    img {
+
+    img,
+    video {
+      border-radius: 14px;
       max-width: 100%;
+      width: 100%;
+      border: 1px solid var(--border);
       display: block;
     }
   }
@@ -212,6 +219,7 @@
     }
     p {
       font-size: 16px;
+      white-space: pre-line;
       padding-top: 10px;
     }
   }

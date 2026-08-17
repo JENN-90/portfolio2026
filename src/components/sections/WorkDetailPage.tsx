@@ -133,40 +133,61 @@ export default function WorkDetailPage() {
         </div>
         {project.showHero !== false && (
           <div className={styles.hero} ref={heroRef}>
-            {project.video || project.videoWebm ? (
-              <video muted loop playsInline autoPlay>
-                {project.videoWebm && (
-                  <source src={project.videoWebm} type="video/webm" />
-                )}
-                {project.video && (
-                  <source src={project.video} type="video/mp4" />
-                )}
-              </video>
-            ) : project.img ? (
-              <img src={project.img} alt={project.title} />
-            ) : (
-              <span>cover image</span>
-            )}
+            {(() => {
+              // heroImg가 지정되면 thumb에 영상이 있어도 hero는 이미지만 렌더링
+              // heroImg가 없을 때만 heroVideo → video(thumb용) 순으로 영상을 폴백
+              if (project.heroImg) {
+                return <img src={project.heroImg} alt={project.title} />;
+              }
+
+              const heroVideo = project.heroVideo ?? project.video;
+              const heroVideoWebm = project.heroVideoWebm ?? project.videoWebm;
+
+              if (heroVideo || heroVideoWebm) {
+                return (
+                  <video muted loop playsInline autoPlay>
+                    {heroVideoWebm && (
+                      <source src={heroVideoWebm} type="video/webm" />
+                    )}
+                    {heroVideo && <source src={heroVideo} type="video/mp4" />}
+                  </video>
+                );
+              }
+              if (project.img) {
+                return <img src={project.img} alt={project.title} />;
+              }
+              return <span>cover image</span>;
+            })()}
           </div>
         )}
 
         <div className={styles.details}>
           {project.details?.map((detail) => (
             <div
-              key={detail.img || detail.texts[0]?.title}
+              key={detail.imgs[0] || detail.video || detail.texts?.[0]?.title}
               className={styles.item}
               ref={addDetailRef}
             >
               <div className={styles.image}>
-                <img src={detail.img} alt={detail.texts[0]?.title ?? ""} />
+                {detail.video ? (
+                  <video src={detail.video} muted loop playsInline autoPlay />
+                ) : (
+                  detail.imgs.map((src) => (
+                    <img
+                      key={src}
+                      src={src}
+                      alt={detail.texts?.[0]?.title ?? ""}
+                    />
+                  ))
+                )}
               </div>
 
-              {detail.texts.length > 0 && (
+              {detail.texts && detail.texts.length > 0 && (
                 <div className={styles.description}>
-                  {detail.texts.map((text) => (
-                    <div key={text.title} className={styles.textGroup}>
-                      <h3>{text.title}</h3>
-                      <p>{text.desc}</p>
+                  {detail.texts.map((text, i) => (
+                    <div key={text.title ?? i} className={styles.textGroup}>
+                      {text.title && <h3>{text.title}</h3>}
+                      {text.desc && <p>{text.desc}</p>}
                     </div>
                   ))}
                 </div>

@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, type KeyboardEvent } from "react";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
 import { PROJECTS, type Project } from "../../data/projects";
@@ -7,13 +7,15 @@ import styles from "./WorkSection.module.scss";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const COL_A = PROJECTS.filter((_, i) => i % 2 === 0);
-const COL_B = PROJECTS.filter((_, i) => i % 2 === 1);
+const COL_A = PROJECTS.filter((_, i) => i % 3 === 0);
+const COL_B = PROJECTS.filter((_, i) => i % 3 === 1);
+const COL_C = PROJECTS.filter((_, i) => i % 3 === 2);
 
 export default function WorkSection() {
   const gridRef = useRef<HTMLDivElement>(null);
   const colARef = useRef<HTMLDivElement>(null);
   const colBRef = useRef<HTMLDivElement>(null);
+  const colCRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const cards = gridRef.current?.querySelectorAll(`.${styles.card}`);
@@ -34,9 +36,10 @@ export default function WorkSection() {
       if (tween.scrollTrigger) triggers.push(tween.scrollTrigger);
     });
 
-    [colARef.current, colBRef.current].forEach((col, i) => {
+    const speeds = [26, 48, 34];
+    [colARef.current, colBRef.current, colCRef.current].forEach((col, i) => {
       if (!col) return;
-      const speed = i === 0 ? 26 : 48;
+      const speed = speeds[i];
       const tween = gsap.to(col, {
         yPercent: -speed,
         ease: "none",
@@ -74,6 +77,11 @@ export default function WorkSection() {
               <WorkCard key={proj.title} project={proj} onOpen={openProject} />
             ))}
           </div>
+          <div className={`${styles.col} ${styles.colC}`} ref={colCRef}>
+            {COL_C.map((proj) => (
+              <WorkCard key={proj.title} project={proj} onOpen={openProject} />
+            ))}
+          </div>
         </div>
       </div>
     </section>
@@ -87,18 +95,22 @@ function WorkCard({
   project: Project;
   onOpen: (p: Project) => void;
 }) {
+  const clickable = project.hasDetailPage !== false;
+
   return (
     <div
-      className={styles.card}
-      onClick={() => onOpen(project)}
-      role="button"
-      tabIndex={0}
-      onKeyDown={(e) => {
-        if (e.key === "Enter" || e.key === " ") {
-          e.preventDefault();
-          onOpen(project);
-        }
-      }}
+      className={`${styles.card} ${!clickable ? styles.notClickable : ""}`}
+      {...(clickable && {
+        onClick: () => onOpen(project),
+        role: "button",
+        tabIndex: 0,
+        onKeyDown: (e: KeyboardEvent) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            onOpen(project);
+          }
+        },
+      })}
     >
       <div className={styles.chip} style={{ background: project.chipColor }} />
       <div className={styles.thumb}>
@@ -115,6 +127,17 @@ function WorkCard({
         )}
         {!project.img && !project.video && !project.videoWebm && (
           <span className={styles.thumbPlaceholder}>preview</span>
+        )}
+        {project.link && (
+          <a
+            className={styles.linkBtn}
+            href={project.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={(e) => e.stopPropagation()}
+          >
+            바로가기 <span aria-hidden="true">↗</span>
+          </a>
         )}
       </div>
       <div className={styles.num}>{project.idx.split(" / ")[0]}</div>
