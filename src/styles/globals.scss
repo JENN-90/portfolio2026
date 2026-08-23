@@ -1,23 +1,25 @@
-@font-face {
-  font-family: "SUIT";
-  src: url("../assets/fonts/SUIT-Variable.woff2") format("woff2-variations");
-  font-weight: 100 900;
-  font-style: normal;
-  font-display: swap;
-}
-
 :root {
-  --bg: #faf8f3;
-  --surface: #ffffff;
-  --text: #18181b;
-  --text-muted: #6e6e76;
-  --border: #ebe8e0;
-  --c1: #ff5a44;
-  --c2: #2e5eff;
-  --c3: #ffb800;
-  --c4: #8b5cf6;
-  --c5: #16b892;
-  --radius: 20px;
+  --bg: #0b0b0e;
+  --text: #f2f0eb;
+  --text-muted: #93918c;
+  --text-dim: #4a4947;
+  --text-faint: #3a3a40;
+  --border: rgba(242, 240, 235, 0.12);
+  --border-strong: rgba(242, 240, 235, 0.16);
+  --accent: #7c5cff;
+
+  /* Career accent 5색 (index_v2 실측값) */
+  --c-purple: rgb(139, 108, 255);
+  --c-red: rgb(255, 107, 92);
+  --c-yellow: rgb(240, 194, 75);
+  --c-green: rgb(76, 217, 160);
+
+  /* projects.ts/experiences.ts의 ChipColor 매핑 — index_v2 실측 5색 */
+  --c1: rgb(255, 107, 92); /* Red */
+  --c2: rgb(92, 154, 255); /* Blue (index_v2 미실측, 톤 맞춤) */
+  --c3: rgb(240, 194, 75); /* Yellow */
+  --c4: rgb(139, 108, 255); /* Purple */
+  --c5: rgb(76, 217, 160); /* Green */
 }
 
 * {
@@ -27,46 +29,76 @@
 }
 
 html {
+  background: var(--bg);
   scroll-behavior: smooth;
 }
 
 body {
+  margin: 0;
   background: var(--bg);
   color: var(--text);
-  font-family: "SUIT", "Inter", "Apple SD Gothic Neo", system-ui, sans-serif;
+  font-family: "Pretendard", -apple-system, BlinkMacSystemFont, sans-serif;
+  overflow-x: hidden;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
 }
 
-h1,
-h2,
-h3 {
-  font-family: "SUIT", "Apple SD Gothic Neo", system-ui, sans-serif;
-  font-weight: 600;
-}
-
-.mono {
-  font-family: "IBM Plex Mono", monospace;
+::selection {
+  background: var(--accent);
+  color: var(--bg);
 }
 
 a {
   color: inherit;
   text-decoration: none;
 }
+a:hover {
+  color: var(--accent);
+}
+
+.heading {
+  font-family: "Archivo Black", sans-serif;
+  font-weight: 400;
+}
+
+.mono {
+  font-family: "JetBrains Mono", monospace;
+}
 
 .wrap {
-  max-width: 1680px;
-  margin: 0 auto;
-  padding: 0 32px;
+  padding: 0 clamp(20px, 5vw, 72px);
 }
 
 .reveal {
   opacity: 0;
-  transform: translateY(28px);
+  transform: translateY(46px);
 }
 
-section {
-  padding: 88px 0;
-  border-bottom: 1px solid var(--border);
+
+@keyframes scrollline {
+  0% {
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+  50% {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+  51% {
+    transform-origin: right;
+  }
+  100% {
+    transform: scaleX(0);
+    transform-origin: right;
+  }
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.2;
+  }
 }
