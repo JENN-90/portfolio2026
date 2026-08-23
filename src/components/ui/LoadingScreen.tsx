@@ -11,37 +11,33 @@ interface LoadingScreenProps {
 
 const MESSAGES = [
   "화면 너머의 사용자를 먼저 생각하고 고민합니다",
-  "픽셀 정리중...",
-  "디테일을 다듬는 중입니다...",
-  "다 왔어요!",
+  "데스크탑 브라우저에서 최적의 화면을 제공합니다. 원활한 감상을 위해 PC 환경에서 접속해 주세요 :)",
+  "조금만 기다려주세요, 디테일을 다듬는 중입니다.",
 ];
 
-const RADIUS = 90;
-const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
+const MESSAGE_INTERVAL = 2000;
 
 export default function LoadingScreen({
   onComplete,
-  duration = 2200,
+  duration = 5000,
 }: LoadingScreenProps) {
   const [percent, setPercent] = useState(0);
-  const [message, setMessage] = useState(MESSAGES[0]);
+  const [msgIndex, setMsgIndex] = useState(-1);
   const [fadingOut, setFadingOut] = useState(false);
   const progressRef = useRef({ value: 0 });
-  const circleRef = useRef<SVGCircleElement>(null);
+  const barRef = useRef<HTMLDivElement>(null);
   const rootRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const tween = gsap.to(progressRef.current, {
       value: 100,
       duration: duration / 1000,
-      ease: "power2.out",
+      ease: "power3.out",
       onUpdate: () => {
         const v = progressRef.current.value;
-        setPercent(v);
-        if (circleRef.current) {
-          circleRef.current.style.strokeDashoffset = String(
-            CIRCUMFERENCE * (1 - v / 100)
-          );
+        setPercent(Math.min(99, Math.floor(v)));
+        if (barRef.current) {
+          barRef.current.style.transform = `scaleX(${v / 100})`;
         }
       },
       onComplete: () => setFadingOut(true),
@@ -52,67 +48,61 @@ export default function LoadingScreen({
   }, [duration]);
 
   useEffect(() => {
+    setMsgIndex(0);
+    let i = 0;
+    const id = setInterval(() => {
+      i += 1;
+      if (i >= MESSAGES.length) {
+        clearInterval(id);
+        return;
+      }
+      setMsgIndex(i);
+    }, MESSAGE_INTERVAL);
+    return () => clearInterval(id);
+  }, []);
+
+  useEffect(() => {
     if (!fadingOut || !rootRef.current) return;
     gsap.to(rootRef.current, {
+      yPercent: -100,
       opacity: 0,
-      duration: 0.5,
-      ease: "power1.out",
+      duration: 1,
+      ease: "power3.inOut",
+      delay: 0.25,
       onComplete,
     });
   }, [fadingOut, onComplete]);
 
-  useEffect(() => {
-    const interval = duration / MESSAGES.length;
-    const id = setInterval(() => {
-      setMessage((prev) => {
-        const next = MESSAGES.indexOf(prev) + 1;
-        if (next >= MESSAGES.length) {
-          clearInterval(id);
-          return prev;
-        }
-        return MESSAGES[next];
-      });
-    }, interval);
-    return () => clearInterval(id);
-  }, [duration]);
-
   return (
     <div className={styles.root} ref={rootRef}>
-      <div className={styles.content}>
-        <div className={styles.gaugeWrap}>
-          <svg
-            className={styles.gauge}
-            viewBox="0 0 200 200"
-            aria-hidden="true"
-          >
-            <defs>
-              <linearGradient
-                id="gaugeGradient"
-                x1="0%"
-                y1="0%"
-                x2="100%"
-                y2="100%"
-              >
-                <stop offset="0%" stopColor="var(--c1)" />
-                <stop offset="100%" stopColor="var(--c2)" />
-              </linearGradient>
-            </defs>
-            <circle className={styles.track} cx="100" cy="100" r={RADIUS} />
-            <circle
-              ref={circleRef}
-              className={styles.progress}
-              cx="100"
-              cy="100"
-              r={RADIUS}
-              strokeDasharray={CIRCUMFERENCE}
-              strokeDashoffset={CIRCUMFERENCE}
-            />
-          </svg>
-          <div className={styles.percentText}>{percent.toFixed(1)}%</div>
+      <div className={styles.topRow}>
+        <span>
+          Sora Jeong<span className={styles.dot}>*</span>
+        </span>
+        <span>Loading Portfolio</span>
+      </div>
+
+      <div className={styles.counterRow}>
+        <div className={styles.count}>{String(percent).padStart(2, "0")}</div>
+        <div className={styles.percentSign}>%</div>
+      </div>
+
+      <div className={styles.messageRow}>
+        {msgIndex >= 0 && (
+          <span key={msgIndex} className={styles.message}>
+            {MESSAGES[msgIndex]}
+          </span>
+        )}
+      </div>
+
+      <div className={styles.bottom}>
+        <div className={styles.track}>
+          <div className={styles.bar} ref={barRef} />
         </div>
-        <p key={message} className={styles.message} role="status">
-          {message}
-        </p>
+        <div className={styles.bottomRow}>
+          <span>UI Developer</span>
+          <span>Seoul, KR</span>
+        </div>
       </div>
     </div>
   );

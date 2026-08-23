@@ -10,32 +10,24 @@ export default function CareerSection() {
   const listRef = useRef<HTMLDivElement>(null);
   const panelRefs = useRef<Record<string, HTMLDivElement | null>>({});
   const [openIds, setOpenIds] = useState<Set<string>>(
-    () => new Set(EXPERIENCES.map((exp) => exp.id))
+    () => new Set([EXPERIENCES[0]?.id])
   );
 
   useEffect(() => {
-    const cards = listRef.current?.querySelectorAll(`.${styles.careerCard}`);
+    const cards = listRef.current?.querySelectorAll(`.${styles.card}`);
     const triggers: ScrollTrigger[] = [];
-    cards?.forEach((card, i) => {
+    cards?.forEach((card) => {
       const tween = gsap.to(card, {
         opacity: 1,
         y: 0,
         duration: 0.7,
-        delay: i * 0.06,
         ease: "power3.out",
-        scrollTrigger: { trigger: card, start: "top 88%" },
+        scrollTrigger: { trigger: card, start: "top 88%", fastScrollEnd: true },
       });
       if (tween.scrollTrigger) triggers.push(tween.scrollTrigger);
     });
     return () => triggers.forEach((t) => t.kill());
   }, []);
-
-  useEffect(() => {
-    Object.entries(panelRefs.current).forEach(([id, el]) => {
-      if (!el) return;
-      el.style.maxHeight = openIds.has(id) ? `${el.scrollHeight}px` : "0px";
-    });
-  }, [openIds]);
 
   const toggle = (id: string) => {
     setOpenIds((prev) => {
@@ -47,99 +39,101 @@ export default function CareerSection() {
   };
 
   return (
-    <div className="wrap">
-      <section id="career">
-        <div className={`${styles.careerHead} reveal`}>
-          <div>
-            <div className={`${styles.eyebrow} mono`}>만들며 성장해온 기록</div>
-            <h2>
-              Where I&apos;ve
-              <br />
-              built things.
-            </h2>
-          </div>
-          <div className={styles.careerStats}>
-            <div>
-              <b className={styles.c1}>11+</b> years&nbsp;/&nbsp;
-              <b className={styles.c2}>5</b> companies&nbsp;/&nbsp;
-              <b className={styles.c4}>46</b> projects
-            </div>
-            <div className={styles.tagline}>Building Better Interfaces</div>
-          </div>
-        </div>
+    <section id="career" className={styles.career}>
+      <div className={styles.head}>
+        <h2 className={styles.heading}>
+          Career<span className={styles.asterisk}>*</span>
+        </h2>
+        <span className={`${styles.range} mono`}>( 2015 — PRESENT )</span>
+      </div>
 
-        <div className={styles.careerList} ref={listRef}>
-          {EXPERIENCES.map((exp, i) => {
-            const open = openIds.has(exp.id);
-            return (
+      <div className={styles.list} ref={listRef}>
+        {EXPERIENCES.map((exp, i) => {
+          const open = openIds.has(exp.id);
+          return (
+            <div
+              key={exp.id}
+              className={styles.card}
+              style={{ "--accent": exp.accentColor } as React.CSSProperties}
+            >
               <div
-                key={exp.id}
-                className={`${styles.careerCard} ${open ? styles.open : ""}`}
-                style={{ "--accent": exp.accentColor } as React.CSSProperties}
+                className={styles.summary}
+                onClick={() => toggle(exp.id)}
+                role="button"
+                tabIndex={0}
+                aria-expanded={open}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    toggle(exp.id);
+                  }
+                }}
+              >
+                <span className={styles.idx}>{String(i + 1).padStart(2, "0")}</span>
+                <h3 className={styles.name}>{exp.name}</h3>
+                <span className={styles.role}>{exp.role}</span>
+                <span className={`${styles.period} mono`}>{exp.period}</span>
+                <span
+                  className={styles.toggle}
+                  style={{ transform: open ? "rotate(0deg)" : "rotate(45deg)" }}
+                >
+                  +
+                </span>
+              </div>
+
+              <div
+                className={styles.panelOuter}
+                style={{
+                  gridTemplateRows: open ? "1fr" : "0fr",
+                }}
               >
                 <div
-                  className={styles.careerSummary}
-                  onClick={() => toggle(exp.id)}
-                  role="button"
-                  tabIndex={0}
-                  aria-expanded={open}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" || e.key === " ") {
-                      e.preventDefault();
-                      toggle(exp.id);
-                    }
-                  }}
-                >
-                  <div className={`${styles.idx} mono`}>
-                    {String(i + 1).padStart(2, "0")}
-                  </div>
-                  <div className={styles.careerTitle}>
-                    <h3>
-                      {exp.name}{" "}
-                      {exp.current && (
-                        <span className={styles.badgeCurrent}>CURRENT</span>
-                      )}
-                    </h3>
-                    <div className={styles.roleLine}>{exp.role}</div>
-                  </div>
-                  <div className={styles.careerPeriod}>
-                    <span className={`${styles.period} mono`}>
-                      {exp.period}
-                    </span>
-                    <div className={styles.toggleBtn}>{open ? "−" : "+"}</div>
-                  </div>
-                </div>
-
-                <div className={styles.careerDesc}>{exp.summary}</div>
-
-                <div
-                  className={styles.careerPanel}
+                  className={styles.panelInner}
                   ref={(el) => {
                     panelRefs.current[exp.id] = el;
                   }}
                 >
-                  <div className={styles.detailBox}>
-                    {exp.groups.map((group) => (
-                      <div key={group.title} className={styles.detailGroup}>
-                        {group.title && <h4>{group.title}</h4>}
-
-                        {group.bullets && (
-                          <ul>
-                            {group.bullets.map((b) => (
-                              <li key={b}>{b}</li>
-                            ))}
-                          </ul>
-                        )}
-                        {group.note && <p>{group.note}</p>}
+                  <div className={styles.panelGrid}>
+                    <div className={styles.summaryCol}>
+                      <p className={styles.summaryText}>{exp.summary}</p>
+                      <div className={styles.tags}>
+                        {exp.tags.map((tag) => (
+                          <span className={`${styles.tag} mono`} key={tag}>
+                            {tag}
+                          </span>
+                        ))}
                       </div>
-                    ))}
+                    </div>
+
+                    <div className={styles.groupsCol}>
+                      {exp.groups.map((group) => (
+                        <div key={group.title} className={styles.group}>
+                          {group.title && (
+                            <div className={`${styles.groupTitle} mono`}>
+                              — <span>{group.title}</span>
+                            </div>
+                          )}
+                          {group.bullets && (
+                            <ul className={styles.bulletList}>
+                              {group.bullets.map((b) => (
+                                <li key={b}>
+                                  <span className={styles.bulletMark} />
+                                  <span>{b}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          )}
+                          {group.note && <p className={styles.note}>{group.note}</p>}
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>
-            );
-          })}
-        </div>
-      </section>
-    </div>
+            </div>
+          );
+        })}
+      </div>
+    </section>
   );
 }

@@ -2,10 +2,16 @@ import { useEffect, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
-import { PROJECTS } from "../../data/projects";
+import { PROJECTS, type Project, type ProjectMedia } from "../../data/projects";
 import styles from "./WorkDetailPage.module.scss";
 
 gsap.registerPlugin(ScrollTrigger);
+
+// hero.media가 없으면 카드 썸네일(thumbnail)을 그대로 hero에 사용
+const resolveHeroMedia = (project: Project): ProjectMedia | null => {
+  if (project.hero?.enabled === false) return null;
+  return project.hero?.media ?? project.thumbnail;
+};
 
 export default function WorkDetailPage() {
   const { slug } = useParams<{ slug: string }>();
@@ -95,6 +101,8 @@ export default function WorkDetailPage() {
     );
   }
 
+  const heroMedia = resolveHeroMedia(project);
+
   return (
     <div
       className={styles.page}
@@ -109,10 +117,10 @@ export default function WorkDetailPage() {
         <div className={styles.num}>/work/{project.idx.split(" / ")[0]}</div>
         <div className={styles.titleRow}>
           <h1>{project.title}</h1>
-          {project.link && (
+          {project.externalLink && (
             <a
               className={styles.linkInline}
-              href={project.link}
+              href={project.externalLink}
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -121,9 +129,9 @@ export default function WorkDetailPage() {
           )}
         </div>
         <div className={styles.meta}>
-          <span>{project.label}</span>
+          <span>{project.subtitle}</span>
         </div>
-        <p className={styles.overview}>{project.desc}</p>
+        <p className={styles.overview}>{project.summary}</p>
         <div className={styles.tags}>
           {project.tags.map((t) => (
             <span key={t} className={styles.tag}>
@@ -131,63 +139,65 @@ export default function WorkDetailPage() {
             </span>
           ))}
         </div>
-        {project.showHero !== false && (
+        {heroMedia && (
           <div className={styles.hero} ref={heroRef}>
-            {(() => {
-              // heroImg가 지정되면 thumb에 영상이 있어도 hero는 이미지만 렌더링
-              // heroImg가 없을 때만 heroVideo → video(thumb용) 순으로 영상을 폴백
-              if (project.heroImg) {
-                return <img src={project.heroImg} alt={project.title} />;
-              }
-
-              const heroVideo = project.heroVideo ?? project.video;
-              const heroVideoWebm = project.heroVideoWebm ?? project.videoWebm;
-
-              if (heroVideo || heroVideoWebm) {
-                return (
-                  <video muted loop playsInline autoPlay>
-                    {heroVideoWebm && (
-                      <source src={heroVideoWebm} type="video/webm" />
-                    )}
-                    {heroVideo && <source src={heroVideo} type="video/mp4" />}
-                  </video>
-                );
-              }
-              if (project.img) {
-                return <img src={project.img} alt={project.title} />;
-              }
-              return <span>cover image</span>;
-            })()}
+            {heroMedia.image ? (
+              <img src={heroMedia.image} alt={project.title} />
+            ) : heroMedia.video || heroMedia.videoWebm ? (
+              <video muted loop playsInline autoPlay>
+                {heroMedia.videoWebm && (
+                  <source src={heroMedia.videoWebm} type="video/webm" />
+                )}
+                {heroMedia.video && (
+                  <source src={heroMedia.video} type="video/mp4" />
+                )}
+              </video>
+            ) : (
+              <span>cover image</span>
+            )}
           </div>
         )}
 
         <div className={styles.details}>
-          {project.details?.map((detail) => (
+          {project.sections?.map((section) => (
             <div
-              key={detail.imgs[0] || detail.video || detail.texts?.[0]?.title}
+              key={
+                section.images[0] ||
+                section.video ||
+                section.captions?.[0]?.heading
+              }
               className={styles.item}
               ref={addDetailRef}
             >
               <div className={styles.image}>
-                {detail.video ? (
-                  <video src={detail.video} muted loop playsInline autoPlay />
+                {section.video ? (
+                  <video
+                    src={section.video}
+                    muted
+                    loop
+                    playsInline
+                    autoPlay
+                  />
                 ) : (
-                  detail.imgs.map((src) => (
+                  section.images.map((src) => (
                     <img
                       key={src}
                       src={src}
-                      alt={detail.texts?.[0]?.title ?? ""}
+                      alt={section.captions?.[0]?.heading ?? ""}
                     />
                   ))
                 )}
               </div>
 
-              {detail.texts && detail.texts.length > 0 && (
+              {section.captions && section.captions.length > 0 && (
                 <div className={styles.description}>
-                  {detail.texts.map((text, i) => (
-                    <div key={text.title ?? i} className={styles.textGroup}>
-                      {text.title && <h3>{text.title}</h3>}
-                      {text.desc && <p>{text.desc}</p>}
+                  {section.captions.map((caption, i) => (
+                    <div
+                      key={caption.heading ?? i}
+                      className={styles.textGroup}
+                    >
+                      {caption.heading && <h3>{caption.heading}</h3>}
+                      {caption.body && <p>{caption.body}</p>}
                     </div>
                   ))}
                 </div>
@@ -195,10 +205,10 @@ export default function WorkDetailPage() {
             </div>
           ))}
         </div>
-        {project.link && (
+        {project.externalLink && (
           <a
             className={styles.link}
-            href={project.link}
+            href={project.externalLink}
             target="_blank"
             rel="noopener noreferrer"
           >

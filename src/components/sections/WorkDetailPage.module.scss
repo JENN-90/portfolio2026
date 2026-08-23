@@ -23,7 +23,7 @@
   transition: color 0.2s ease, transform 0.2s ease;
 
   &:hover {
-    color: var(--c2);
+    color: var(--accent);
     transform: translateX(-2px);
   }
 
@@ -61,8 +61,8 @@
     cursor: pointer;
 
     &:hover {
-      border-color: var(--c2);
-      color: var(--c2);
+      border-color: var(--accent);
+      color: var(--accent);
     }
   }
 }
@@ -159,8 +159,8 @@
   transition: border-color 0.2s ease, color 0.2s ease;
 
   &:hover {
-    border-color: var(--c2);
-    color: var(--c2);
+    border-color: var(--accent);
+    color: var(--accent);
   }
 }
 
@@ -201,7 +201,7 @@
     margin-right: auto;
     word-break: keep-all;
     padding: 30px 15%;
-    background: #f7f7f7;
+    background: var(--surface-2);
     margin-top: 20px;
     border-radius: 14px;
 
