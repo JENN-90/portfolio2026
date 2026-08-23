@@ -83,7 +83,7 @@ export const EXPERIENCES: Experience[] = [
   },
   {
     id: "welcome-fnd",
-    name: "Welcome F&D",
+    name: "웰컴에프앤디",
     role: "웰컴금융그룹 — 금융 계열사 UI/퍼블리싱",
     period: "2021.03 — 2022.05",
     accentColor: ChipColor.Red,
