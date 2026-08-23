@@ -2,22 +2,46 @@ import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
-import ScrollProgress from "./ui/ScrollProgress";
 import Header from "./ui/Header";
 import Footer from "./ui/Footer";
+import CustomCursor from "./ui/CustomCursor";
+import Marquee from "./ui/Marquee";
 import HeroSection from "./sections/HeroSection";
+import AboutSection from "./sections/AboutSection";
 import WorkSection from "./sections/WorkSection";
 import CareerSection from "./sections/CareerSection";
 import ContactSection from "./sections/ContactSection";
+import { createLenis, destroyLenis, scrollToEl } from "../lib/lenis";
+import { SECTION_IDS, type SectionId } from "../types/section";
+
+const MARQUEE_ITEMS = [
+  "Pixel-perfect polish",
+  "Design-dev bridge",
+  "Full screen ownership",
+  "Detailed interactions",
+  "Solid front-end",
+  "Complete product experience",
+];
 
 gsap.registerPlugin(ScrollTrigger);
-
-type SectionId = "work" | "career" | "contact";
-const SECTION_IDS: SectionId[] = ["work", "career", "contact"];
 
 export default function Page() {
   const [active, setActive] = useState<SectionId | "">("");
   const { hash } = useLocation();
+
+  useEffect(() => {
+    const lenis = createLenis();
+    lenis.on("scroll", ScrollTrigger.update);
+
+    const onTick = (time: number) => lenis.raf(time * 1000);
+    gsap.ticker.add(onTick);
+    gsap.ticker.lagSmoothing(0);
+
+    return () => {
+      gsap.ticker.remove(onTick);
+      destroyLenis();
+    };
+  }, []);
 
   useEffect(() => {
     const triggers = SECTION_IDS.map((id) => {
@@ -32,17 +56,19 @@ export default function Page() {
       });
     });
 
-    const revealTweens = gsap.utils
-      .toArray<HTMLElement>(".reveal")
-      .map((el) =>
-        gsap.to(el, {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          ease: "power3.out",
-          scrollTrigger: { trigger: el, start: "top 88%" },
-        })
-      );
+    const revealTweens = gsap.utils.toArray<HTMLElement>(".reveal").map((el) =>
+      gsap.to(el, {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: el,
+          start: "top 88%",
+          fastScrollEnd: true,
+        },
+      })
+    );
 
     ScrollTrigger.refresh();
 
@@ -56,20 +82,22 @@ export default function Page() {
     if (!hash) return;
     requestAnimationFrame(() => {
       ScrollTrigger.refresh();
-      document
-        .getElementById(hash.slice(1))
-        ?.scrollIntoView({ behavior: "smooth" });
+      scrollToEl(hash);
     });
   }, [hash]);
 
   return (
     <>
-      <ScrollProgress />
+      <CustomCursor />
       <Header active={active} />
-      <HeroSection />
-      <WorkSection />
-      <CareerSection />
-      <ContactSection />
+      <main>
+        <HeroSection />
+        <Marquee items={MARQUEE_ITEMS} />
+        <AboutSection />
+        <CareerSection />
+        <WorkSection />
+        <ContactSection />
+      </main>
       <Footer />
     </>
   );
