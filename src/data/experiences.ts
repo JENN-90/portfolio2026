@@ -31,7 +31,8 @@ export const EXPERIENCES: Experience[] = [
     summary:
       "블록체인 게임 플랫폼 WEMIXPLAY의 3.0 → 4.0 리뉴얼에 초기 단계부터 UI 작업자로 참여했습니다. " +
       "AI-driven Admin 파이프라인에서는 UI 일관성 유지를 위한 UI 생성 Rule과 원활한 협업을 위한 Auto-Comment 스킬을 구현했으며, " +
-      "WEMADE 공식 홈페이지에 GSAP 스크롤 인터랙션을 적용했습니다. 현재는 Web3 글로벌 게임 사전예약 이벤트의 UI 화면을 구현하고 있습니다.",
+      "WEMADE 공식 홈페이지에 GSAP 스크롤 인터랙션을, StabletNet에는 Framer Motion 스크롤 인터랙션을 적용했습니다. " +
+      "현재는 Web3 글로벌 게임 사전예약 이벤트의 UI 및 FE 기능을 구현하고 있습니다.",
     groups: [
       {
         title: "WEMIXPLAY 3.0 → 4.0",
@@ -47,18 +48,21 @@ export const EXPERIENCES: Experience[] = [
         title: "Developer Console & AI-driven Admin",
         bullets: [
           "Wemix Developer Console admin 컴포넌트 제작 및 화면 구축",
-          "WEMIX PAY·DEX AI-driven console admin — AI 전용 구축 파이프라인 과정에서 UI 일관성 유지를 위한 협업 스크립트 작업",
+          "AI-driven 파이프라인의 spec-intake 단계에서 기획·API·보안 문서를 교차 참조해 불일치를 감지하고, 담당 부서를 자동 멘션·코멘트하는 Jira 스킬 개발",
+          "form·list·detail·dialog·filter 등 백오피스 컴포넌트를 JSON 스키마로 규칙화해, AI가 UI를 생성할 때 할루시네이션 없이 일관된 구조로 생성되도록 UI Generation Rules 설계",
         ],
       },
       {
         title: "공식 홈페이지 & Web3 이벤트",
         bullets: [
           "WEMADE 공식 홈페이지 구축(Main, Work with us, 채용/회사소개, IR) — Next.js·GSAP 스크롤 인터랙션 구현",
-          "Web3 글로벌 게임 사전예약 이벤트 UI 제작 및 기능 구현 (ROM, YMIR, 악마단 돌격(예정))",
+          "StabletNet 랜딩페이지 — Framer Motion·CSS Animation 기반 스크롤 reveal 인터랙션 구현 및 배포",
+          "Night Crows·ROM·Legend of YMIR 등 글로벌 타이틀 사전예약 프로모션 UI 제작(모바일/데스크탑 적응형)",
+          "Hell Squad Rrrush 사전예약 프로모션 — reCAPTCHA 연동 로그인 및 사전예약 기능 UI·FE 개발",
         ],
       },
     ],
-    tags: ["Next.js", "GSAP", "Storybook", "Design System", "Web3"],
+    tags: ["Next.js", "GSAP", "Framer Motion", "Storybook", "Design System", "Web3"],
   },
   {
     id: "winkstone",
