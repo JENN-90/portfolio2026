@@ -2,7 +2,7 @@ import styles from "./ContactSection.module.scss";
 
 const SOCIAL_LINKS = [
   { label: "GitHub", href: "https://github.com/JENN-90#" },
-  { label: "Resume/이력서", href: "/docs/resume_2026.pdf" },
+  // { label: "Resume/이력서", href: "/docs/resume_2026.pdf" },
   // { label: "LinkedIn", href: "#" },
 ];
 
